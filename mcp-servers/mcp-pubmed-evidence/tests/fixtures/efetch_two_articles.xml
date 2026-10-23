@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2024//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_240101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+  <MedlineCitation Status="MEDLINE" Owner="NLM">
+    <PMID Version="1">31000001</PMID>
+    <Article PubModel="Print-Electronic">
+      <Journal>
+        <ISSN IssnType="Electronic">1527-1315</ISSN>
+        <JournalIssue CitedMedium="Internet">
+          <Volume>298</Volume>
+          <Issue>2</Issue>
+          <PubDate><Year>2021</Year><Month>Feb</Month></PubDate>
+        </JournalIssue>
+        <Title>Radiology</Title>
+        <ISOAbbreviation>Radiology</ISOAbbreviation>
+      </Journal>
+      <ArticleTitle>Diagnostic Performance of Radiologists for Acute Intracranial Hemorrhage on Noncontrast Head <i>CT</i>: A Multicenter Reader Study.</ArticleTitle>
+      <Pagination><MedlinePgn>345-53</MedlinePgn></Pagination>
+      <ELocationID EIdType="doi" ValidYN="Y">10.1148/radiol.2021000001</ELocationID>
+      <Abstract>
+        <AbstractText Label="BACKGROUND" NlmCategory="BACKGROUND">Missed intracranial hemorrhage (ICH) on head CT remains a source of diagnostic error.</AbstractText>
+        <AbstractText Label="METHODS" NlmCategory="METHODS">In this retrospective multicenter reader study, 12 board-certified radiologists independently interpreted 1,250 consecutive noncontrast head CT scans (n = 1,250) from three hospitals.</AbstractText>
+        <AbstractText Label="RESULTS" NlmCategory="RESULTS">Pooled reader sensitivity was 88.4% (95% CI, 85.1%–91.2%) and specificity was 93.0% (95% CI: 91.0–94.7). The area under the curve was 0.91 (0.89–0.93). Accuracy of 91.5% was observed.</AbstractText>
+        <AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">Unaided radiologist performance provides a benchmark for future computer-aided detection studies.</AbstractText>
+      </Abstract>
+      <AuthorList CompleteYN="Y">
+        <Author ValidYN="Y"><LastName>Smith</LastName><ForeName>Jane A</ForeName><Initials>JA</Initials></Author>
+        <Author ValidYN="Y"><LastName>Lee</LastName><ForeName>Kevin</ForeName><Initials>K</Initials></Author>
+        <Author ValidYN="Y"><LastName>Chen</LastName><ForeName>Wei</ForeName><Initials>W</Initials></Author>
+        <Author ValidYN="Y"><LastName>Garcia</LastName><ForeName>Maria</ForeName><Initials>M</Initials></Author>
+        <Author ValidYN="Y"><LastName>Okafor</LastName><ForeName>Tunde</ForeName><Initials>T</Initials></Author>
+        <Author ValidYN="Y"><LastName>Patel</LastName><ForeName>Ravi</ForeName><Initials>R</Initials></Author>
+        <Author ValidYN="Y"><LastName>Nguyen</LastName><ForeName>Linh</ForeName><Initials>L</Initials></Author>
+      </AuthorList>
+      <PublicationTypeList>
+        <PublicationType UI="D016428">Journal Article</PublicationType>
+        <PublicationType UI="D016448">Multicenter Study</PublicationType>
+      </PublicationTypeList>
+    </Article>
+    <MeshHeadingList>
+      <MeshHeading><DescriptorName UI="D020300" MajorTopicYN="Y">Intracranial Hemorrhages</DescriptorName></MeshHeading>
+      <MeshHeading><DescriptorName UI="D014057" MajorTopicYN="N">Tomography, X-Ray Computed</DescriptorName></MeshHeading>
+      <MeshHeading><DescriptorName UI="D012680" MajorTopicYN="N">Sensitivity and Specificity</DescriptorName></MeshHeading>
+    </MeshHeadingList>
+  </MedlineCitation>
+  <PubmedData>
+    <ArticleIdList>
+      <ArticleId IdType="pubmed">31000001</ArticleId>
+      <ArticleId IdType="doi">10.1148/radiol.2021000001</ArticleId>
+      <ArticleId IdType="pmc">PMC7000001</ArticleId>
+    </ArticleIdList>
+  </PubmedData>
+</PubmedArticle>
+<PubmedArticle>
+  <MedlineCitation Status="MEDLINE" Owner="NLM">
+    <PMID Version="1">31000002</PMID>
+    <Article PubModel="Print">
+      <Journal>
+        <JournalIssue CitedMedium="Print">
+          <Volume>45</Volume>
+          <PubDate><MedlineDate>2019 Nov-Dec</MedlineDate></PubDate>
+        </JournalIssue>
+        <Title>Emergency Radiology</Title>
+        <ISOAbbreviation>Emerg Radiol</ISOAbbreviation>
+      </Journal>
+      <ArticleTitle>Emergency physician interpretation of head CT for hemorrhage</ArticleTitle>
+      <Pagination><MedlinePgn>101-7</MedlinePgn></Pagination>
+      <Abstract>
+        <AbstractText>Three emergency physicians reviewed 400 scans; sensitivity and specificity were 0.76 and 0.94, respectively.</AbstractText>
+      </Abstract>
+      <AuthorList CompleteYN="Y">
+        <Author ValidYN="Y"><LastName>Brown</LastName><ForeName>Alex</ForeName><Initials>A</Initials></Author>
+        <Author ValidYN="Y"><CollectiveName>ED Imaging Group</CollectiveName></Author>
+      </AuthorList>
+      <PublicationTypeList>
+        <PublicationType UI="D016428">Journal Article</PublicationType>
+      </PublicationTypeList>
+    </Article>
+  </MedlineCitation>
+  <PubmedData>
+    <ArticleIdList>
+      <ArticleId IdType="pubmed">31000002</ArticleId>
+    </ArticleIdList>
+  </PubmedData>
+</PubmedArticle>
+</PubmedArticleSet>

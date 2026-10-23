@@ -1,0 +1,380 @@
+{
+ "protocolSection": {
+  "identificationModule": {
+   "nctId": "NCT06018545",
+   "orgStudyIdInfo": {
+    "id": "310995 - A"
+   },
+   "organization": {
+    "fullName": "Oxford University Hospitals NHS Trust",
+    "class": "OTHER"
+   },
+   "briefTitle": "AI Assisted Reader Evaluation in Acute Computed Tomography (CT) Head Interpretation",
+   "officialTitle": "AI Assisted Reader Evaluation in Acute CT Head Interpretation",
+   "acronym": "AI-REACT"
+  },
+  "statusModule": {
+   "statusVerifiedDate": "2025-11",
+   "overallStatus": "COMPLETED",
+   "expandedAccessInfo": {
+    "hasExpandedAccess": false
+   },
+   "startDateStruct": {
+    "date": "2023-06-01",
+    "type": "ACTUAL"
+   },
+   "primaryCompletionDateStruct": {
+    "date": "2023-09-01",
+    "type": "ACTUAL"
+   },
+   "completionDateStruct": {
+    "date": "2025-06-01",
+    "type": "ACTUAL"
+   },
+   "studyFirstSubmitDate": "2023-07-25",
+   "studyFirstSubmitQcDate": "2023-08-25",
+   "studyFirstPostDateStruct": {
+    "date": "2023-08-30",
+    "type": "ACTUAL"
+   },
+   "lastUpdateSubmitDate": "2025-11-19",
+   "lastUpdatePostDateStruct": {
+    "date": "2025-11-24",
+    "type": "ACTUAL"
+   }
+  },
+  "sponsorCollaboratorsModule": {
+   "responsibleParty": {
+    "type": "PRINCIPAL_INVESTIGATOR",
+    "investigatorFullName": "Alex Novak",
+    "investigatorTitle": "Primary Investigator",
+    "investigatorAffiliation": "Oxford University Hospitals NHS Trust"
+   },
+   "leadSponsor": {
+    "name": "Oxford University Hospitals NHS Trust",
+    "class": "OTHER"
+   }
+  },
+  "oversightModule": {
+   "oversightHasDmc": false,
+   "isFdaRegulatedDrug": false,
+   "isFdaRegulatedDevice": false
+  },
+  "descriptionModule": {
+   "briefSummary": "This study has been added as a sub study to the Simulation Training for Emergency Department Imaging 2 study (ClinicalTrials.gov ID NCT05427838).\n\nThe purpose of the study is to assess the impact of an Artificial Intelligence (AI) tool called qER 2.0 EU on the performance of readers, including general radiologists, emergency medicine clinicians, and radiographers, in interpreting non-contrast CT h …"
+  },
+  "conditionsModule": {
+   "conditions": [
+    "Intracranial Hemorrhages",
+    "Acute Ischemic Stroke",
+    "Hydrocephalus",
+    "Cerebral Infarction",
+    "Cerebral Edema",
+    "Cerebral Injury"
+   ],
+   "keywords": [
+    "Radiology",
+    "Head tomography",
+    "Emergency medicine",
+    "Radiographer",
+    "Artificial intelligence"
+   ]
+  },
+  "designModule": {
+   "studyType": "OBSERVATIONAL",
+   "patientRegistry": false,
+   "designInfo": {
+    "observationalModel": "COHORT",
+    "timePerspective": "RETROSPECTIVE"
+   },
+   "enrollmentInfo": {
+    "count": 33,
+    "type": "ACTUAL"
+   }
+  },
+  "armsInterventionsModule": {
+   "armGroups": [
+    {
+     "label": "Readers",
+     "description": "30 readers will be recruited across four NHS trusts including ten general radiologists, fifteen emergency medicine clinicians, and five CT radiographers of varying seniority. Readers will interpret each scan first without, then with, the assistance of the AI tool, with an intervening 4-week washout period. Using a panel of neuroradiologists as ground truth, the stand-alone performance of qER will be assessed, and its impact on the readers' performance will be analysed as change in accuracy, mean review time per scan, and self-reported diagnostic confidence. Subgroup analyses will be performed by reader professional group, reader seniority, pathological finding, and neuroradiologist-rated difficulty.",
+     "interventionNames": [
+      "Other: Reading"
+     ]
+    },
+    {
+     "label": "Ground truthers",
+     "description": "Two Consultant neuroradiologists will independently review the images to establish the 'ground truth' findings on the CT scans which will be used as the reference standard. In the case of disagreement, a third senior neuroradiologist's opinion will be sought for arbitration. A difficulty score will be assigned to each scan by the ground truthers using a 5-point Likert scale.",
+     "interventionNames": [
+      "Other: Ground truthing"
+     ]
+    }
+   ],
+   "interventions": [
+    {
+     "type": "OTHER",
+     "name": "Ground truthing",
+     "description": "Two Consultant neuroradiologists will independently review the images to establish the 'ground truth' findings on the CT scans which will be used as the reference standard. In the case of disagreement, a third senior neuroradiologist's opinion will be sought for arbitration.",
+     "armGroupLabels": [
+      "Ground truthers"
+     ]
+    },
+    {
+     "type": "OTHER",
+     "name": "Reading",
+     "description": "All 30 readers will review all 150 cases, in each of two study phases. The readers will provide their opinion on the presence or absence of some acute abnormalities, including intracranial haemorrhage, infarct, midline shift and fracture. They will provide a confidence in their diagnosis (10-point visual analogue scale), and a single click point to mark the location of each abnormality that they consider as being present. The time taken for each scan will be automatically recorded.",
+     "armGroupLabels": [
+      "Readers"
+     ]
+    }
+   ]
+  },
+  "outcomesModule": {
+   "primaryOutcomes": [
+    {
+     "measure": "Reader performance: Sensitivity, specificity, comparative between with and without AI assistance.",
+     "description": "Reader performance will be evaluated as sensitivity, specificity, with and without AI assistance.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "Reader performance: Positive and negative predictive value, comparative between with and without AI assistance.",
+     "description": "Reader performance will be evaluated as Positive Predictive Value (PPV) and negative predictive value (NPV), with and without AI assistance.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "Reader performance: Area Under Receiver Operating Characteristic Curve (AUROC), comparative between with and without AI assistance.",
+     "description": "Reader performance will be evaluated as Area Under Receiver Operating Characteristic Curve (AUROC), with and without AI assistance.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "Reader speed: Mean time taken to review a scan, with versus without AI assistance.",
+     "description": "Reader speed will be evaluated as the man time taken to review a scan, using time unite of seconds.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "Reader confidence: Self-reported diagnostic confidence on a 10 point visual analogue scale, with vs without AI assistance.",
+     "description": "On the reading platform (RAIQC), one of the questions asks the level of confidence that the participant has in their diagnostic opinion. The question offers a scale of 1 to 10, where 1 is not confident, and 10 is highly confident.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "qER (AI algorithm) performance: Sensitivity and specificity",
+     "description": "qER performance will be evaluated as sensitivity, specificity.",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "qER (AI algorithm) performance: Positive and negative predictive value.",
+     "description": "qER performance will be evaluated as Positive Predictive Value (PPV) and negative predictive value (NPV).",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    },
+    {
+     "measure": "qER (AI algorithm) performance: Area Under Receiver Operating Characteristic Curve (AUROC).",
+     "description": "qER performance will be evaluated as Area Under Receiver Operating Characteristic Curve (AUROC)",
+     "timeFrame": "During 6 weeks, which is the period for reading or reviewing the cases/scans."
+    }
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Radiologists/Radiographers/ED clinicians who review CT head scans as part of their clinical practice\n\nExclusion Criteria:\n\n* Neuroradiologists.\n* Non-radiologist groups: Clinicians with previous formal postgraduate CT reporting training\n* Emergency Medicine group: Clinicians with previous career in radiology/neurosurgery to registrar level",
+   "healthyVolunteers": true,
+   "sex": "ALL",
+   "stdAges": [
+    "CHILD",
+    "ADULT",
+    "OLDER_ADULT"
+   ],
+   "studyPopulation": "Setting:\n\nReaders will be recruited from the following four hospital Trusts (secondary and tertiary level:\n\n* Guy's \\& St Thomas NHS Foundation Trust\n* Northumbria Healthcare NHS Foundation Trust\n* NHS Greater Glasgow and Clyde\n* Oxford University Hospitals NHS Foundation Trust\n\nParticipants:\n\n30 volunteer participant readers will be selected from the following groups:\n\n* Emergency Medicine Consultants and Registrars (5 Consultant, 5 Registrar (ST3-6), 5 junior (F1-ST2)\n* General Radiologist Consultants and Registrars (5 Consultant, 5 Registrar)\n* 5 CT Radiographers",
+   "samplingMethod": "NON_PROBABILITY_SAMPLE"
+  },
+  "contactsLocationsModule": {
+   "overallOfficials": [
+    {
+     "name": "Alex Novak, MSc",
+     "affiliation": "National Health Services in the United Kingdom (NHS UK)",
+     "role": "PRINCIPAL_INVESTIGATOR"
+    },
+    {
+     "name": "Sarim Ather, PhD",
+     "affiliation": "National Health Services in the United Kingdom (NHS UK)",
+     "role": "PRINCIPAL_INVESTIGATOR"
+    }
+   ],
+   "locations": [
+    {
+     "facility": "Guy's & St Thomas NHS Foundation Trust",
+     "city": "London",
+     "state": "London",
+     "zip": "SE1 7EH",
+     "country": "United Kingdom",
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    },
+    {
+     "facility": "Oxford University Hospitals NHS Foundation Trust",
+     "city": "Oxford",
+     "state": "Oxfordshire",
+     "zip": "OX3 9DU",
+     "country": "United Kingdom",
+     "geoPoint": {
+      "lat": 51.75222,
+      "lon": -1.25596
+     }
+    },
+    {
+     "facility": "NHS Greater Glasgow and Clyde",
+     "city": "Glasgow",
+     "zip": "G12 0XH",
+     "country": "United Kingdom",
+     "geoPoint": {
+      "lat": 55.86515,
+      "lon": -4.25763
+     }
+    },
+    {
+     "facility": "Northumbria Healthcare NHS Foundation Trust",
+     "city": "Newcastle upon Tyne",
+     "zip": "NE27 0QJ",
+     "country": "United Kingdom",
+     "geoPoint": {
+      "lat": 54.97328,
+      "lon": -1.61396
+     }
+    }
+   ]
+  },
+  "referencesModule": {
+   "references": [
+    {
+     "pmid": "31206250",
+     "type": "BACKGROUND",
+     "citation": "Juszczyk K, Ireland K, Thomas B, Kroon HM, Hollington P. Reduction in hospital admissions with an early computed tomography scan: results of an outpatient management protocol for uncomplicated acute diverticulitis. ANZ J Surg. 2019 Sep;89(9):1085-1090. doi: 10.1111/ans.15285. Epub 2019 Jun 17."
+    },
+    {
+     "pmid": "32218624",
+     "type": "BACKGROUND",
+     "citation": "Chan J, Fan KS, Mak TLA, Loh SY, Ng SWY, Adapala R. Pre-Operative Imaging can Reduce Negative Appendectomy Rate in Acute Appendicitis. Ulster Med J. 2020 Jan;89(1):25-28. Epub 2020 Feb 18."
+    },
+    {
+     "pmid": "31864722",
+     "type": "BACKGROUND",
+     "citation": "Greenhalgh R, Howlett DC, Drinkwater KJ. Royal College of Radiologists national audit evaluating the provision of imaging in the severely injured patient and compliance with national guidelines. Clin Radiol. 2020 Mar;75(3):224-231. doi: 10.1016/j.crad.2019.10.025. Epub 2019 Dec 19."
+    },
+    {
+     "pmid": "35370919",
+     "type": "BACKGROUND",
+     "citation": "Lin E, Yuh EL. Computational Approaches for Acute Traumatic Brain Injury Image Recognition. Front Neurol. 2022 Mar 9;13:791816. doi: 10.3389/fneur.2022.791816. eCollection 2022."
+    },
+    {
+     "pmid": "35613840",
+     "type": "BACKGROUND",
+     "citation": "Sheth SA, Giancardo L, Colasurdo M, Srinivasan VM, Niktabe A, Kan P. Machine learning and acute stroke imaging. J Neurointerv Surg. 2023 Feb;15(2):195-199. doi: 10.1136/neurintsurg-2021-018142. Epub 2022 May 25."
+    },
+    {
+     "pmid": "33479036",
+     "type": "BACKGROUND",
+     "citation": "Yeo M, Tahayori B, Kok HK, Maingard J, Kutaiba N, Russell J, Thijs V, Jhamb A, Chandra RV, Brooks M, Barras CD, Asadi H. Review of deep learning algorithms for the automatic detection of intracranial hemorrhages on computed tomography head imaging. J Neurointerv Surg. 2021 Apr;13(4):369-378. doi: 10.1136/neurintsurg-2020-017099. Epub 2021 Jan 21."
+    },
+    {
+     "pmid": "30318264",
+     "type": "BACKGROUND",
+     "citation": "Chilamkurthy S, Ghosh R, Tanamala S, Biviji M, Campeau NG, Venugopal VK, Mahajan V, Rao P, Warier P. Deep learning algorithms for detection of critical findings in head CT scans: a retrospective study. Lancet. 2018 Dec 1;392(10162):2388-2396. doi: 10.1016/S0140-6736(18)31645-3. Epub 2018 Oct 11."
+    },
+    {
+     "pmid": "35725824",
+     "type": "BACKGROUND",
+     "citation": "Guo Y, He Y, Lyu J, Zhou Z, Yang D, Ma L, Tan HT, Chen C, Zhang W, Hu J, Han D, Ding G, Liu S, Qiao H, Xu F, Lou X, Dai Q. Deep learning with weak annotation from diagnosis reports for detection of multiple head disorders: a prospective, multicentre study. Lancet Digit Health. 2022 Aug;4(8):e584-e593. doi: 10.1016/S2589-7500(22)00090-5. Epub 2022 Jun 17."
+    },
+    {
+     "pmid": "33239711",
+     "type": "BACKGROUND",
+     "citation": "Lee JY, Kim JS, Kim TY, Kim YS. Detection and classification of intracranial haemorrhage on CT images using a novel deep-learning algorithm. Sci Rep. 2020 Nov 25;10(1):20546. doi: 10.1038/s41598-020-77441-z."
+    },
+    {
+     "pmid": "31304294",
+     "type": "BACKGROUND",
+     "citation": "Arbabshirani MR, Fornwalt BK, Mongelluzzo GJ, Suever JD, Geise BD, Patel AA, Moore GJ. Advanced machine learning in action: identification of intracranial hemorrhage on computed tomography scans of the head with clinical workflow integration. NPJ Digit Med. 2018 Apr 4;1:9. doi: 10.1038/s41746-017-0015-z. eCollection 2018."
+    },
+    {
+     "pmid": "33243455",
+     "type": "BACKGROUND",
+     "citation": "Davis MA, Rao B, Cedeno PA, Saha A, Zohrabian VM. Machine Learning and Improved Quality Metrics in Acute Intracranial Hemorrhage by Noncontrast Computed Tomography. Curr Probl Diagn Radiol. 2022 Jul-Aug;51(4):556-561. doi: 10.1067/j.cpradiol.2020.10.007. Epub 2020 Nov 15."
+    },
+    {
+     "pmid": "35440170",
+     "type": "BACKGROUND",
+     "citation": "Wardlaw JM, Mair G, von Kummer R, Williams MC, Li W, Storkey AJ, Trucco E, Liebeskind DS, Farrall A, Bath PM, White P. Accuracy of Automated Computer-Aided Diagnosis for Stroke Imaging: A Critical Evaluation of Current Evidence. Stroke. 2022 Jul;53(7):2393-2403. doi: 10.1161/STROKEAHA.121.036204. Epub 2022 Apr 20."
+    },
+    {
+     "pmid": "35204543",
+     "type": "BACKGROUND",
+     "citation": "Finck T, Moosbauer J, Probst M, Schlaeger S, Schuberth M, Schinz D, Yigitsoy M, Byas S, Zimmer C, Pfister F, Wiestler B. Faster and Better: How Anomaly Detection Can Accelerate and Improve Reporting of Head Computed Tomography. Diagnostics (Basel). 2022 Feb 10;12(2):452. doi: 10.3390/diagnostics12020452."
+    },
+    {
+     "pmid": "36381767",
+     "type": "BACKGROUND",
+     "citation": "Warman R, Warman A, Warman P, Degnan A, Blickman J, Chowdhary V, Dash D, Sangal R, Vadhan J, Bueso T, Windisch T, Neves G. Deep Learning System Boosts Radiologist Detection of Intracranial Hemorrhage. Cureus. 2022 Oct 13;14(10):e30264. doi: 10.7759/cureus.30264. eCollection 2022 Oct."
+    },
+    {
+     "pmid": "34623478",
+     "type": "BACKGROUND",
+     "citation": "Dyer T, Chawda S, Alkilani R, Morgan TN, Hughes M, Rasalingham S. Validation of an artificial intelligence solution for acute triage and rule-out normal of non-contrast CT head scans. Neuroradiology. 2022 Apr;64(4):735-743. doi: 10.1007/s00234-021-02826-4. Epub 2021 Oct 8."
+    },
+    {
+     "pmid": "35994882",
+     "type": "BACKGROUND",
+     "citation": "Mallon DH, Taylor EJR, Vittay OI, Sheeka A, Doig D, Lobotesis K. Comparison of automated ASPECTS, large vessel occlusion detection and CTP analysis provided by Brainomix and RapidAI in patients with suspected ischaemic stroke. J Stroke Cerebrovasc Dis. 2022 Oct;31(10):106702. doi: 10.1016/j.jstrokecerebrovasdis.2022.106702. Epub 2022 Aug 19."
+    },
+    {
+     "pmid": "36754714",
+     "type": "BACKGROUND",
+     "citation": "Andralojc LE, Kim DH, Edwards AJ. Diagnostic accuracy of a decision-support software for the detection of intracranial large-vessel occlusion in CT angiography. Clin Radiol. 2023 Apr;78(4):e313-e318. doi: 10.1016/j.crad.2022.10.017. Epub 2023 Jan 11."
+    },
+    {
+     "pmid": "30399157",
+     "type": "BACKGROUND",
+     "citation": "Zech JR, Badgeley MA, Liu M, Costa AB, Titano JJ, Oermann EK. Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs: A cross-sectional study. PLoS Med. 2018 Nov 6;15(11):e1002683. doi: 10.1371/journal.pmed.1002683. eCollection 2018 Nov."
+    },
+    {
+     "pmid": "37100953",
+     "type": "BACKGROUND",
+     "citation": "Huang SC, Pareek A, Jensen M, Lungren MP, Yeung S, Chaudhari AS. Self-supervised learning for medical image classification: a systematic review and implementation guidelines. NPJ Digit Med. 2023 Apr 26;6(1):74. doi: 10.1038/s41746-023-00811-0."
+    },
+    {
+     "pmid": "15685718",
+     "type": "BACKGROUND",
+     "citation": "Hillis SL, Obuchowski NA, Schartz KM, Berbaum KS. A comparison of the Dorfman-Berbaum-Metz and Obuchowski-Rockette methods for receiver operating characteristic (ROC) data. Stat Med. 2005 May 30;24(10):1579-607. doi: 10.1002/sim.2024."
+    },
+    {
+     "pmid": "10954438",
+     "type": "BACKGROUND",
+     "citation": "Obuchowski NA. Sample size tables for receiver operating characteristic studies. AJR Am J Roentgenol. 2000 Sep;175(3):603-8. doi: 10.2214/ajr.175.3.1750603."
+    },
+    {
+     "pmid": "42712312",
+     "type": "DERIVED",
+     "citation": "Novak A, Shah R, Espinosa Morgado AT, Robert D, Kumar S, Oke J, Bhatia K, Romsauerova A, Das T; AI-REACT Reader Study Group; Narbone M, Dharmadhikari R, Harrison M, Vimalesvaran K, Gooch J, Woznitza N, Lowe D, Shuaib H, Ather S. Artificial intelligence-assisted reader evaluation in acute CT head interpretation (AI-REACT): a multireader multicase study. BMJ Digit Health Ai. 2026 Mar 12;2(1):e000071. doi: 10.1136/bmjdh-2026-000071. eCollection 2026."
+    },
+    {
+     "pmid": "38346874",
+     "type": "DERIVED",
+     "citation": "Fu H, Novak A, Robert D, Kumar S, Tanamala S, Oke J, Bhatia K, Shah R, Romsauerova A, Das T, Espinosa A, Grzeda MT, Narbone M, Dharmadhikari R, Harrison M, Vimalesvaran K, Gooch J, Woznitza N, Salik N, Campbell A, Khan F, Lowe DJ, Shuaib H, Ather S. AI assisted reader evaluation in acute CT head interpretation (AI-REACT): protocol for a multireader multicase study. BMJ Open. 2024 Feb 12;14(2):e079824. doi: 10.1136/bmjopen-2023-079824."
+    }
+   ],
+   "seeAlsoLinks": [
+    {
+     "label": "Richards M. Diagnostics: Recovery and Renewal - Report of the Independent Review of Diagnostic Services for NHS England. NHS England 2022.",
+     "url": "https://www.england.nhs.uk/publication/diagnostics-recovery-and-renewal-report-of-the-independent-review-of-diagnostic-services-for-nhs-england/"
+    },
+    {
+     "label": "Royal College of Radiologists. Clinical radiology UK workforce census 2019 report. Royal College of Radiologists 2020.",
+     "url": "https://www.rcr.ac.uk/publication/clinical-radiology-uk-workforce-census-2019-report"
+    },
+    {
+     "label": "National Institute for Health and Care Excellence. Artificial intelligence for analysing CT brain scans. 2020.",
+     "url": "https://www.nice.org.uk/advice/mib207"
+    }
+   ]
+  }
+ },
+ "hasResults": false
+}

@@ -1,0 +1,24 @@
+[project]
+name = "mcp-pubmed-evidence"
+version = "0.1.0"
+description = "PubMed / NCBI E-utilities MCP server: baseline clinical performance evidence for AI-SaMD protocols"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "mcp>=2.3,<3",
+    "httpx>=0.27",
+    "pydantic>=2.9",
+]
+
+[project.scripts]
+mcp-pubmed-evidence = "mcp_pubmed_evidence.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_pubmed_evidence"]
+
+[tool.pytest.ini_options]
+markers = ["live: hits the real NCBI E-utilities API (set LIVE_API_TESTS=1 to run)"]

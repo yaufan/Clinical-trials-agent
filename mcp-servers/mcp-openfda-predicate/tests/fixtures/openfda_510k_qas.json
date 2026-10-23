@@ -1,0 +1,77 @@
+{
+ "meta": {
+  "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+  "terms": "https://open.fda.gov/terms/",
+  "license": "https://open.fda.gov/license/",
+  "last_updated": "2026-10-12",
+  "results": {
+   "skip": 0,
+   "limit": 2,
+   "total": 89
+  }
+ },
+ "results": [
+  {
+   "third_party_flag": "N",
+   "city": "Taichung City",
+   "advisory_committee_description": "Radiology",
+   "address_1": "8f. # 360, Sec.1 Jingmao Rd., Beitun Dist.",
+   "address_2": "",
+   "statement_or_summary": "Summary",
+   "product_code": "QAS",
+   "openfda": {
+    "device_name": "Radiological Computer-Assisted Triage And Notification Software",
+    "medical_specialty_description": "Radiology",
+    "regulation_number": "892.2080",
+    "device_class": "2"
+   },
+   "zip_code": "406040",
+   "applicant": "Ever Fortune.Ai, Co., Ltd.",
+   "decision_date": "2026-04-22",
+   "decision_code": "SESE",
+   "country_code": "TW",
+   "device_name": "EFAI ERSUITE CT APPENDICITIS ASSESSMENT SYSTEM (APPEN-CT-100)",
+   "advisory_committee": "RA",
+   "contact": "Joseph  Chang",
+   "expedited_review_flag": "",
+   "k_number": "K253163",
+   "state": "",
+   "date_received": "2025-09-26",
+   "review_advisory_committee": "RA",
+   "postal_code": "406040",
+   "decision_description": "Substantially Equivalent",
+   "clearance_type": "Traditional"
+  },
+  {
+   "third_party_flag": "N",
+   "city": "Boston",
+   "advisory_committee_description": "Radiology",
+   "address_1": "45 Temple St., Unit 106",
+   "address_2": "",
+   "statement_or_summary": "Summary",
+   "product_code": "QAS",
+   "openfda": {
+    "device_name": "Radiological Computer-Assisted Triage And Notification Software",
+    "medical_specialty_description": "Radiology",
+    "regulation_number": "892.2080",
+    "device_class": "2"
+   },
+   "zip_code": "02114",
+   "applicant": "GuideAI Health",
+   "decision_date": "2026-06-18",
+   "decision_code": "SESE",
+   "country_code": "US",
+   "device_name": "Vascular Assist Occlusion Triage (VAOT) (v1.0)",
+   "advisory_committee": "RA",
+   "contact": "Raj  Shah",
+   "expedited_review_flag": "",
+   "k_number": "K260729",
+   "state": "MA",
+   "date_received": "2026-03-06",
+   "review_advisory_committee": "RA",
+   "postal_code": "02114",
+   "decision_description": "Substantially Equivalent",
+   "clearance_type": "Traditional"
+  }
+ ]
+}

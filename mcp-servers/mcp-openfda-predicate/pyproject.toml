@@ -1,0 +1,22 @@
+[project]
+name = "mcp-openfda-predicate"
+version = "0.1.0"
+description = "MCP server for FDA predicate-device evidence: openFDA 510(k) search, 510(k)/De Novo summary extraction, FDA AI-enabled device list"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "mcp>=2.3,<3",
+    "httpx>=0.27",
+    "pydantic>=2.9",
+    "pypdf>=5",
+]
+
+[project.scripts]
+mcp-openfda-predicate = "mcp_openfda_predicate.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_openfda_predicate"]
