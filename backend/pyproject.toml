@@ -1,0 +1,32 @@
+[project]
+name = "aisamd-backend"
+version = "0.1.0"
+description = "FastAPI backend + multi-agent MCP host for the AI-SaMD Clinical Protocol Copilot"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.5",
+    "httpx>=0.27",
+    "sqlalchemy[asyncio]>=2.0",
+    "aiosqlite>=0.20",
+    "asyncpg>=0.29",
+    "sse-starlette>=2.1",
+    "python-docx>=1.1",
+    "mcp>=2.3,<3",
+    "anthropic>=1.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# In-process MCP servers for tests / single-process deployments
+servers = ["mcp-biostat-calc", "mcp-regulatory-rag"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
