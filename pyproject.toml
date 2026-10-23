@@ -1,0 +1,65 @@
+[project]
+name = "ai-samd-protocol-copilot"
+version = "0.1.0"
+description = "MCP-powered clinical trial protocol copilot for AI/ML-enabled medical devices (AI-SaMD)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+
+# The root project carries no runtime code of its own; it exists so that
+# `uv sync` at the repository root installs every workspace member into one
+# virtual environment for local development and CI.
+dependencies = [
+    "aisamd-backend",
+    "mcp-biostat-calc",
+    "mcp-clinicaltrials",
+    "mcp-openfda-predicate",
+    "mcp-pubmed-evidence",
+    "mcp-regulatory-rag",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "respx>=0.22",
+    "ruff>=0.8",
+]
+
+[tool.uv.workspace]
+members = ["backend", "mcp-servers/*"]
+
+[tool.uv.sources]
+aisamd-backend = { workspace = true }
+mcp-biostat-calc = { workspace = true }
+mcp-clinicaltrials = { workspace = true }
+mcp-openfda-predicate = { workspace = true }
+mcp-pubmed-evidence = { workspace = true }
+mcp-regulatory-rag = { workspace = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["frontend", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "app",
+    "mcp_biostat_calc",
+    "mcp_clinicaltrials",
+    "mcp_openfda_predicate",
+    "mcp_pubmed_evidence",
+    "mcp_regulatory_rag",
+]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib -p no:cacheprovider"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["backend/tests", "mcp-servers"]
+filterwarnings = ["ignore::SyntaxWarning", "ignore::DeprecationWarning"]
+markers = ["live: hits external APIs (set LIVE_API_TESTS=1 to run)"]
