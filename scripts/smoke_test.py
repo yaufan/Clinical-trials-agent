@@ -18,7 +18,12 @@ import httpx
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base-url", default="http://localhost:8000")
-    ap.add_argument("--timeout", type=float, default=1800.0, help="seconds to wait for each half of the pipeline")
+    ap.add_argument(
+        "--timeout",
+        type=float,
+        default=1800.0,
+        help="seconds to wait for each half of the pipeline",
+    )
     ap.add_argument("--out", default="smoke-protocol.md")
     args = ap.parse_args()
     api = args.base_url.rstrip("/") + "/api"
@@ -42,7 +47,9 @@ def main() -> int:
         while time.time() - t0 < limit:
             st = c.get(f"{api}/runs/{rid}").json()
             if st["stage"] != last:
-                print(f"  [{time.time() - t0:6.0f}s] stage = {st['stage']}  llm_calls={st['llm_calls']} tool_calls={st['tool_calls']}")
+                print(
+                    f"  [{time.time() - t0:6.0f}s] stage = {st['stage']}  llm_calls={st['llm_calls']} tool_calls={st['tool_calls']}"
+                )
                 last = st["stage"]
             if st["stage"] in stages:
                 return st
@@ -53,14 +60,21 @@ def main() -> int:
     if st["stage"] == "failed":
         print("FAILED:", st["error"])
         return 1
-    print(f"evidence items: {len(st['evidence']['items'])}; benchmark rows: {len(st['evidence']['benchmark_rows'])}")
-    c.post(f"{api}/runs/{rid}/confirm-evidence", json={"reviewer_notes": "auto-confirmed by smoke test"}).raise_for_status()
+    print(
+        f"evidence items: {len(st['evidence']['items'])}; benchmark rows: {len(st['evidence']['benchmark_rows'])}"
+    )
+    c.post(
+        f"{api}/runs/{rid}/confirm-evidence",
+        json={"reviewer_notes": "auto-confirmed by smoke test"},
+    ).raise_for_status()
     st = wait_for({"completed", "failed"}, args.timeout)
     if st["stage"] == "failed":
         print("FAILED:", st["error"])
         return 1
     audit = st["audits"][-1]
-    print(f"sections: {len(st['sections'])}; audit: pass={audit['n_pass']} partial={audit['n_partial']} fail={audit['n_fail']} verdict={audit['overall_verdict']}")
+    print(
+        f"sections: {len(st['sections'])}; audit: pass={audit['n_pass']} partial={audit['n_partial']} fail={audit['n_fail']} verdict={audit['overall_verdict']}"
+    )
     md = c.get(f"{api}/runs/{rid}/export.md").text
     with open(args.out, "w", encoding="utf-8") as fh:
         fh.write(md)
