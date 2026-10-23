@@ -1,0 +1,93 @@
+# SPIRIT-AI extension — the 15 AI-specific items (12 extensions + 3 elaborations) added to SPIRIT 2013.
+# Source: Cruz Rivera S, Liu X, Chan A-W, Denniston AK, Calvert MJ; SPIRIT-AI and CONSORT-AI Working
+# Group. Guidelines for clinical trial protocols for interventions involving artificial intelligence:
+# the SPIRIT-AI extension. Lancet Digit Health 2020;2(10):e549–e560 (co-published in Nat Med 2020;26:1351–63
+# and BMJ 2020;370:m3210). Item wording is paraphrased for machine use; cite and verify against the
+# published checklist table before submission.
+id: SPIRIT-AI
+title: "SPIRIT-AI (Standard Protocol Items: Recommendations for Interventional Trials – Artificial Intelligence extension)"
+applies_to:
+  - Prospective_Interventional_RCT
+  - Hybrid_Standalone_and_MRMC   # when the protocol includes a prospective interventional component
+scope_note: >
+  SPIRIT-AI governs protocols of *clinical trials* (prospective, interventional) of AI interventions.
+  Retrospective standalone performance studies and reader (MRMC) studies are diagnostic-accuracy
+  designs: use STARD-AI/STARD 2015 for reporting and ISO 14155 Annex A for the investigation plan,
+  and treat SPIRIT-AI items 10(ii), 11a(i)–(vi) and 22(ii) as good-practice content for the device
+  description and analysis plan.
+items:
+  - id: "1(i)"
+    section: Title and abstract
+    type: elaboration
+    text: Indicate that the intervention involves artificial intelligence / machine learning and specify the type of model.
+    keywords: [title, artificial intelligence, machine learning, model type, deep learning, convolutional]
+  - id: "1(ii)"
+    section: Title and abstract
+    type: extension
+    text: Specify the intended use of the AI intervention.
+    keywords: [intended use, synopsis, abstract]
+  - id: "6a(i)"
+    section: Background and rationale
+    type: extension
+    text: Explain the intended use of the AI intervention in the context of the clinical pathway, including its purpose and its intended users (for example healthcare professionals, patients, public).
+    keywords: [clinical pathway, intended users, purpose, workflow]
+  - id: "6a(ii)"
+    section: Background and rationale
+    type: extension
+    text: Describe any pre-existing evidence for the AI intervention (for example standalone performance, external validation, prior studies).
+    keywords: [pre-existing evidence, prior validation, standalone performance, external validation]
+  - id: "9"
+    section: Study setting
+    type: elaboration
+    text: Describe the onsite and offsite requirements needed to integrate the AI intervention into the trial setting (hardware, software, connectivity, PACS/EHR integration).
+    keywords: [onsite requirements, offsite requirements, integration, PACS, infrastructure, hardware]
+  - id: "10(i)"
+    section: Eligibility criteria
+    type: elaboration
+    text: State the inclusion and exclusion criteria at the level of participants.
+    keywords: [inclusion criteria, exclusion criteria, participants, age, population]
+  - id: "10(ii)"
+    section: Eligibility criteria
+    type: extension
+    text: State the inclusion and exclusion criteria at the level of the input data (for example image quality, acquisition protocol, device compatibility).
+    keywords: [input data, image quality, acquisition protocol, scanner, data-level exclusion]
+  - id: "11a(i)"
+    section: Interventions
+    type: extension
+    text: State which version of the AI algorithm will be used.
+    keywords: [algorithm version, software version, locked, version number]
+  - id: "11a(ii)"
+    section: Interventions
+    type: extension
+    text: Specify the procedure for acquiring and selecting the input data for the AI intervention.
+    keywords: [input data, acquisition, selection, DICOM, imaging protocol]
+  - id: "11a(iii)"
+    section: Interventions
+    type: extension
+    text: Specify the procedure for assessing and handling poor quality or unavailable input data.
+    keywords: [poor quality, unavailable input, image quality, missing data, artefact]
+  - id: "11a(iv)"
+    section: Interventions
+    type: extension
+    text: Specify whether there is human–AI interaction in the handling of the input data, and what level of expertise is required of users.
+    keywords: [human-AI interaction, user expertise, training, intended user]
+  - id: "11a(v)"
+    section: Interventions
+    type: extension
+    text: Specify the output of the AI intervention.
+    keywords: [output, bounding box, heatmap, probability, score, segmentation, alert]
+  - id: "11a(vi)"
+    section: Interventions
+    type: extension
+    text: Explain the procedure for how the AI intervention's outputs will contribute to decision-making or other elements of clinical practice.
+    keywords: [decision making, clinical practice, workflow, second reader, concurrent reader, triage]
+  - id: "22(ii)"
+    section: Harms / Analysis
+    type: extension
+    text: Specify any plans to identify and analyse performance errors. If there are no plans for this, justify why not.
+    keywords: [performance errors, error analysis, failure cases, false positives, false negatives]
+  - id: "29(ii)"
+    section: Access to data and code
+    type: extension
+    text: State whether and how the AI intervention and/or its code can be accessed, including any restrictions to access or re-use.
+    keywords: [code access, model access, availability, licence, restrictions]

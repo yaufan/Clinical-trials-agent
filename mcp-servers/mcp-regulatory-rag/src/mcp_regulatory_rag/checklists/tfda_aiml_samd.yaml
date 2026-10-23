@@ -1,0 +1,21 @@
+# TFDA — 人工智慧/機器學習技術之醫療器材軟體查驗登記技術指引 (衛生福利部食品藥物管理署, 2020-09-11,
+# FDA器字第1091607253號). Official PDF: https://www.fda.gov.tw/tc/includes/GetFile.ashx?id=f637354440708445688&type=1
+# This file lists the evidence elements the guidance expects in a submission that are relevant
+# to clinical-performance study planning. Paraphrased in Traditional Chinese with English glosses;
+# verify against the official text (ingest the PDF into the RAG index for clause-level retrieval).
+id: TFDA-AIML-SaMD
+title: TFDA 人工智慧/機器學習技術之醫療器材軟體查驗登記技術指引 (2020)
+applies_to: [Standalone_Performance, MRMC_Reader_Study, Hybrid_Standalone_and_MRMC, Prospective_Interventional_RCT, Prognostic_Predictive]
+scope_note: 台灣查驗登記所需之臨床效能驗證證據要項；適用於第二、三等級 AI/ML 醫療器材軟體。
+items:
+  - { id: "TW-1", section: 產品描述 (Device description), type: expected, text: "說明預期用途、適應症、目標族群、使用環境、使用者資格，以及 CADe/CADx/CADt 等功能類型；標示演算法版本與鎖定狀態。", keywords: [預期用途, 適應症, 使用者, 演算法版本, intended use, locked] }
+  - { id: "TW-2", section: 輸入資料規格 (Input specification), type: expected, text: "說明輸入資料之模態、相容設備/廠牌、影像參數(如切面厚度、解析度)、資料品質要求與不合格資料之處理機制。", keywords: [輸入資料, 相容設備, 影像參數, 品質要求, modality, scanner] }
+  - { id: "TW-3", section: 演算法與訓練資料 (Algorithm & training data), type: expected, text: "說明演算法架構、訓練/調校/測試資料之來源、數量、分佈與獨立性，並確保測試資料未用於訓練。", keywords: [訓練資料, 測試資料, 獨立性, training data, independence] }
+  - { id: "TW-4", section: 參考標準 (Reference standard), type: expected, text: "說明黃金標準/參考標準之建立方式(病理、追蹤結果、專家共識)、判讀者資格與人數、判讀獨立性與爭議處理。", keywords: [參考標準, 黃金標準, 專家共識, ground truth, adjudication] }
+  - { id: "TW-5", section: 效能驗證設計 (Performance validation design), type: expected, text: "說明獨立效能驗證(standalone)與/或臨床閱片試驗(MRMC)之設計、回溯/前瞻性質、多中心資料來源、樣本數推估依據與統計假設。", keywords: [效能驗證, standalone, MRMC, 樣本數, 統計假設, retrospective, prospective] }
+  - { id: "TW-6", section: 效能指標 (Performance metrics), type: expected, text: "依功能類型選擇適當指標(敏感度、特異度、AUC、FROC、Dice、判讀時間等)，並以信賴區間呈現；說明操作點(閾值)之選定與鎖定。", keywords: [敏感度, 特異度, AUC, 信賴區間, 操作點, threshold] }
+  - { id: "TW-7", section: 次族群分析 (Subgroup analysis), type: expected, text: "分析不同年齡、性別、設備廠牌、醫院來源等次族群之效能一致性，以支持適應症範圍。", keywords: [次族群, 一致性, 設備廠牌, subgroup, generalisability] }
+  - { id: "TW-8", section: 本土資料 (Local data), type: expected, text: "說明是否包含台灣族群/本土醫療機構資料，或提出國外資料可外推至台灣族群之理由。", keywords: [台灣族群, 本土資料, 外推, local data, extrapolation] }
+  - { id: "TW-9", section: 變更管制 (Change control), type: expected, text: "說明軟體版本管制及演算法變更(含重新訓練)之管理方式；屬鎖定型演算法者應說明不會於上市後自動更新。", keywords: [變更管制, 版本, 重新訓練, PCCP, locked algorithm] }
+  - { id: "TW-10", section: 網路安全與資料保護 (Cybersecurity & privacy), type: expected, text: "說明個人資料去識別化、資料儲存與傳輸之安全措施，符合個人資料保護法及人體研究法之要求。", keywords: [去識別化, 個資法, 人體研究法, cybersecurity, de-identification] }
+  - { id: "TW-11", section: 臨床試驗法規 (Clinical investigation regulation), type: expected, text: "依醫療器材管理法第37條判定是否屬無顯著風險臨床試驗，並依醫療器材優良臨床試驗作業規範取得人體試驗委員會(IRB)核准。", keywords: [醫療器材管理法, 第37條, 無顯著風險, IRB, GCP] }

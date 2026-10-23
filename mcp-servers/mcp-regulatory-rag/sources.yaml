@@ -1,0 +1,55 @@
+# Guidance corpus for the regulatory RAG index.
+# `python -m mcp_regulatory_rag.ingest --sources sources.yaml` downloads each `url` (or reads `path`),
+# extracts text, chunks it and indexes it into Qdrant. PDFs are cached under data/corpus/ and are
+# NOT committed to git (see .gitignore). Add your own documents (e.g. SPIRIT-AI checklist PDF,
+# ISO 14155 if licensed, C-IRB protocol templates) as additional entries with `path:`.
+documents:
+  - id: tfda-aiml-samd-2020
+    title: 人工智慧/機器學習技術之醫療器材軟體查驗登記技術指引 (TFDA)
+    jurisdiction: TW
+    doc_type: guidance
+    year: 2020
+    url: https://www.fda.gov.tw/tc/includes/GetFile.ashx?id=f637354440708445688&type=1
+    notes: 衛生福利部食品藥物管理署 2020-09-11 公告 (FDA器字第1091607253號)
+
+  - id: fda-cade-clinical-performance-2022
+    title: "FDA Guidance: Clinical Performance Assessment — Considerations for Computer-Assisted Detection Devices Applied to Radiology Images and Radiology Device Data in Premarket Notification (510(k)) Submissions"
+    jurisdiction: US
+    doc_type: guidance
+    year: 2022
+    url: https://www.fda.gov/media/77642/download
+
+  - id: fda-pccp-ai-2024
+    title: "FDA Guidance: Marketing Submission Recommendations for a Predetermined Change Control Plan for Artificial Intelligence-Enabled Device Software Functions"
+    jurisdiction: US
+    doc_type: guidance
+    year: 2024
+    url: https://www.fda.gov/media/166704/download
+
+  - id: fda-ai-dsf-lifecycle-draft-2025
+    title: "FDA Draft Guidance: Artificial Intelligence-Enabled Device Software Functions — Lifecycle Management and Marketing Submission Recommendations"
+    jurisdiction: US
+    doc_type: guidance
+    year: 2025
+    url: https://www.fda.gov/media/184856/download
+
+  - id: imdrf-samd-n41-clinical-evaluation-2017
+    title: "IMDRF/SaMD WG/N41: Software as a Medical Device (SaMD) — Clinical Evaluation"
+    jurisdiction: INTL
+    doc_type: guidance
+    year: 2017
+    url: https://www.imdrf.org/sites/default/files/docs/imdrf/final/technical/imdrf-tech-170921-samd-n41-clinical-evaluation_1.pdf
+
+  # Local documents you must supply yourself (licensing / no stable URL):
+  # - id: spirit-ai-2020
+  #   title: "SPIRIT-AI extension (Lancet Digit Health 2020)"
+  #   jurisdiction: INTL
+  #   doc_type: checklist
+  #   year: 2020
+  #   path: data/local/spirit-ai.pdf
+  # - id: iso-14155-2020
+  #   title: "ISO 14155:2020 Clinical investigation of medical devices for human subjects"
+  #   jurisdiction: INTL
+  #   doc_type: standard
+  #   year: 2020
+  #   path: data/local/iso14155.pdf

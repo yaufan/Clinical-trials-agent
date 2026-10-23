@@ -1,0 +1,12 @@
+# IMDRF SaMD Working Group N41 — Software as a Medical Device (SaMD): Clinical Evaluation (2017).
+# https://www.imdrf.org/documents/software-medical-device-samd-clinical-evaluation
+# Three pillars of clinical evaluation; paraphrased.
+id: IMDRF-N41
+title: IMDRF/SaMD WG/N41 — SaMD Clinical Evaluation
+applies_to: [Standalone_Performance, MRMC_Reader_Study, Hybrid_Standalone_and_MRMC, Prospective_Interventional_RCT, Prognostic_Predictive]
+scope_note: International framework for the three components of SaMD clinical evaluation; the protocol should state which component(s) the study provides.
+items:
+  - { id: "N41-1", section: Valid clinical association, type: pillar, text: "Demonstrate that the SaMD output is associated with the targeted clinical condition/physiological state (literature, prior studies, clinical guidelines).", keywords: [clinical association, scientific validity] }
+  - { id: "N41-2", section: Analytical validation, type: pillar, text: "Demonstrate that the SaMD correctly processes input data to generate accurate, reliable and precise output (technical/bench performance, standalone performance).", keywords: [analytical validation, standalone performance, accuracy, reliability] }
+  - { id: "N41-3", section: Clinical validation, type: pillar, text: "Demonstrate that the SaMD output achieves the intended purpose in the target population in the context of clinical care (clinical performance: sensitivity/specificity/PPV/NPV, reader studies, clinical outcomes).", keywords: [clinical validation, clinical performance, target population] }
+  - { id: "N41-4", section: Risk categorisation, type: pillar, text: "State the SaMD category (significance of information: treat/diagnose, drive clinical management, inform clinical management × healthcare situation: critical, serious, non-serious) and the level of independent review/evidence expected.", keywords: [SaMD category, significance, healthcare situation, independent review] }

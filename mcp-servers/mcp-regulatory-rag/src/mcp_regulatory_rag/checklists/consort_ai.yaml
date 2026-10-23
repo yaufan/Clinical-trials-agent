@@ -1,0 +1,27 @@
+# CONSORT-AI extension — AI-specific items for reporting clinical trial *results* (the publication
+# describes 14 new items: 11 extensions + 3 elaborations).
+# Source: Liu X, Cruz Rivera S, Moher D, Calvert MJ, Denniston AK; SPIRIT-AI and CONSORT-AI Working
+# Group. Reporting guidelines for clinical trial reports for interventions involving artificial
+# intelligence: the CONSORT-AI extension. Nat Med 2020;26:1364–74 (co-published in Lancet Digit Health
+# and BMJ). The candidate items below mirror the SPIRIT-AI structure; wording paraphrased.
+# VERIFY numbering and the exact 14-item composition against the published table before citing.
+id: CONSORT-AI
+title: "CONSORT-AI (Consolidated Standards of Reporting Trials – Artificial Intelligence extension)"
+applies_to: [Prospective_Interventional_RCT]
+scope_note: Reporting standard for completed AI clinical trials; use it to pre-plan the clinical study report and the data that must be captured during the trial.
+items:
+  - { id: "1a,b(i)", section: Title and abstract, type: elaboration, text: "Indicate that the intervention involves AI/ML and specify the type of model.", keywords: [title, abstract, model type] }
+  - { id: "1a,b(ii)", section: Title and abstract, type: extension, text: "State the intended use of the AI intervention.", keywords: [intended use] }
+  - { id: "2a(i)", section: Background and objectives, type: extension, text: "Explain the intended use of the AI intervention in the context of the clinical pathway, including its purpose and intended users.", keywords: [clinical pathway, intended users] }
+  - { id: "2a(ii)", section: Background and objectives, type: extension, text: "Describe any pre-existing evidence for the AI intervention.", keywords: [pre-existing evidence, prior validation] }
+  - { id: "4a(i)", section: Participants, type: elaboration, text: "State the inclusion and exclusion criteria at the level of participants.", keywords: [inclusion, exclusion, participants] }
+  - { id: "4a(ii)", section: Participants, type: extension, text: "State the inclusion and exclusion criteria at the level of the input data.", keywords: [input data, image quality, exclusion] }
+  - { id: "4b", section: Settings, type: elaboration, text: "Describe how the AI intervention was integrated into the trial setting, including any onsite or offsite requirements.", keywords: [integration, setting, onsite, offsite] }
+  - { id: "5(i)", section: Interventions, type: extension, text: "State which version of the AI algorithm was used.", keywords: [version] }
+  - { id: "5(ii)", section: Interventions, type: extension, text: "Describe how the input data were acquired and selected for the AI intervention.", keywords: [input data, acquisition, selection] }
+  - { id: "5(iii)", section: Interventions, type: extension, text: "Describe how poor quality or unavailable input data were assessed and handled.", keywords: [poor quality, unavailable, handling] }
+  - { id: "5(iv)", section: Interventions, type: extension, text: "Specify whether there was human–AI interaction in the handling of the input data and what level of expertise was required of users.", keywords: [human-AI interaction, expertise] }
+  - { id: "5(v)", section: Interventions, type: extension, text: "Specify the output of the AI intervention.", keywords: [output] }
+  - { id: "5(vi)", section: Interventions, type: extension, text: "Explain how the AI intervention's outputs contributed to decision-making or other elements of clinical practice.", keywords: [decision making, workflow] }
+  - { id: "19", section: Harms, type: extension, text: "Describe the results of any analysis of performance errors and how errors were identified, where applicable; if no such analysis was planned or done, justify why not.", keywords: [performance errors, error analysis] }
+  - { id: "25", section: Other information, type: extension, text: "State whether and how the AI intervention and/or its code can be accessed, including any restrictions to access or re-use.", keywords: [code access, availability] }

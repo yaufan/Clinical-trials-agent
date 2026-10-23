@@ -1,0 +1,94 @@
+# STARD-AI — reporting guideline for diagnostic test accuracy studies evaluating AI.
+# Source: Sounderajah V, Guni A, Liu X, et al. The STARD-AI reporting guideline for diagnostic
+# accuracy studies using artificial intelligence. Nat Med 2025;31(10). Built on STARD 2015
+# (Bossuyt PM et al. BMJ 2015;351:h5527). The published statement contains the 30 STARD 2015
+# items with AI-specific modifications plus new AI-specific items (secondary sources report
+# 14–18 new/modified items). The list below is a machine-usable synthesis of the AI-specific
+# themes ordered by STARD section; VERIFY ITEM NUMBERS AND WORDING against the Nature Medicine
+# table before citing in a submission.
+id: STARD-AI
+title: STARD-AI (Standards for Reporting of Diagnostic Accuracy Studies – Artificial Intelligence)
+applies_to:
+  - Standalone_Performance
+  - MRMC_Reader_Study
+  - Hybrid_Standalone_and_MRMC
+scope_note: >
+  Primary framework for retrospective/prospective diagnostic accuracy studies of an AI index test,
+  including standalone performance and reader studies. Pair with QUADAS-2/QUADAS-AI for risk of bias
+  and with ISO 14155 Annex A for the clinical investigation plan structure.
+items:
+  - id: "AI-1"
+    section: Title / Abstract
+    type: new
+    text: Identify the study as a diagnostic accuracy study of an AI-based index test; state the AI model type and the intended use/clinical role (replace, add-on, triage).
+    keywords: [title, AI model type, intended use, clinical role, triage, add-on]
+  - id: "AI-2"
+    section: Introduction
+    type: modified
+    text: State the intended use, intended users and position of the AI index test in the clinical pathway, and the study hypotheses (e.g., performance goals, non-inferiority to readers).
+    keywords: [intended use, clinical pathway, hypotheses, performance goal]
+  - id: "AI-3"
+    section: Methods – Study design
+    type: modified
+    text: Specify whether data collection was planned before (prospective) or after (retrospective) the index test and reference standard were performed, and whether the study is a standalone evaluation, reader study, or clinical workflow study.
+    keywords: [prospective, retrospective, standalone, reader study, workflow]
+  - id: "AI-4"
+    section: Methods – Participants / Data
+    type: modified
+    text: Describe eligibility criteria at the participant AND the data/image level (acquisition device, protocol, quality thresholds), and how low-quality or unprocessable inputs were handled.
+    keywords: [eligibility, image quality, acquisition, scanner, unprocessable, exclusion]
+  - id: "AI-5"
+    section: Methods – Participants / Data
+    type: new
+    text: Describe the data sources (sites, countries, time period), sampling method (consecutive, random, enriched/case-control) and demonstrate independence of the test dataset from any data used for model training, tuning or threshold selection.
+    keywords: [data source, sampling, enriched, case-control, independence, training data, leakage]
+  - id: "AI-6"
+    section: Methods – Index test
+    type: new
+    text: "Describe the AI index test in sufficient detail to allow replication: model architecture/type, version, inputs, outputs, pre/post-processing, operating point(s)/thresholds and whether they were fixed (locked) before testing."
+    keywords: [architecture, version, locked, threshold, operating point, pre-processing, output]
+  - id: "AI-7"
+    section: Methods – Index test
+    type: new
+    text: "Describe the human–AI interaction: how users accessed the AI output, training provided, reading protocol (concurrent, second reader, triage), and washout for crossover reader designs."
+    keywords: [human-AI interaction, reading protocol, washout, concurrent, second reader]
+  - id: "AI-8"
+    section: Methods – Reference standard
+    type: modified
+    text: Describe the reference standard and its rationale, including how it was established (pathology, follow-up, expert panel), adjudicator number/expertise/independence, blinding to the AI output, and handling of disagreements.
+    keywords: [reference standard, ground truth, adjudication, consensus, blinding, expert panel]
+  - id: "AI-9"
+    section: Methods – Analysis
+    type: modified
+    text: Pre-specify the measures of diagnostic accuracy (sensitivity, specificity, AUROC, FROC, etc.), how indeterminate AI outputs and missing data are handled, and how confidence intervals are computed (including clustering of multiple lesions/images per patient).
+    keywords: [sensitivity, specificity, AUROC, indeterminate, missing data, confidence interval, clustering]
+  - id: "AI-10"
+    section: Methods – Analysis
+    type: modified
+    text: Justify the intended sample size (positives and negatives) and describe pre-specified subgroup analyses (demographics, acquisition device, site, disease subtype) for performance variability and fairness.
+    keywords: [sample size, subgroup, fairness, scanner, demographics, site]
+  - id: "AI-11"
+    section: Methods – Analysis
+    type: new
+    text: Describe any planned analysis of AI failure modes and performance errors (false positives/negatives, out-of-distribution inputs) and of calibration where probabilistic outputs are produced.
+    keywords: [failure modes, error analysis, calibration, out-of-distribution]
+  - id: "AI-12"
+    section: Results
+    type: modified
+    text: Report participant/data flow (STARD diagram) including inputs excluded for quality or processing failures, with cross-tabulation of AI results against the reference standard by subgroup.
+    keywords: [flow diagram, excluded, processing failure, cross-tabulation]
+  - id: "AI-13"
+    section: Results
+    type: modified
+    text: Report accuracy estimates with precision (95% CI) at the pre-specified operating point(s) and, where relevant, reader performance with and without AI.
+    keywords: [95% CI, operating point, reader performance]
+  - id: "AI-14"
+    section: Discussion
+    type: modified
+    text: Discuss limitations including dataset shift, generalisability across devices/populations/sites, and the implications for the intended use and clinical role.
+    keywords: [dataset shift, generalisability, limitations]
+  - id: "AI-15"
+    section: Other information
+    type: new
+    text: State the availability of the AI model/code, data and analysis code, registration details and protocol access, funding and conflicts of interest including developer involvement.
+    keywords: [availability, registration, protocol, funding, conflicts of interest, developer]

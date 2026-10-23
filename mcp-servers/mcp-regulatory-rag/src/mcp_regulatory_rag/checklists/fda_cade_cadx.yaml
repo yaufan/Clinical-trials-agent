@@ -1,0 +1,22 @@
+# US FDA — Clinical Performance Assessment: Considerations for Computer-Assisted Detection
+# Devices Applied to Radiology Images and Radiology Device Data in Premarket Notification
+# (510(k)) Submissions. Guidance for Industry and FDA Staff (issued 2012, updated 2022).
+# PDF: https://www.fda.gov/media/77642/download
+# Also relevant: "Marketing Submission Recommendations for a Predetermined Change Control Plan
+# for AI-Enabled Device Software Functions" (final, Dec 2024, https://www.fda.gov/media/166704/download)
+# and "AI-Enabled Device Software Functions: Lifecycle Management and Marketing Submission
+# Recommendations" (draft, Jan 2025, https://www.fda.gov/media/184856/download).
+# Themes paraphrased from the CADe guidance for study-design checking; retrieve exact clauses from the RAG index.
+id: FDA-CADe
+title: FDA CADe/CADx Clinical Performance Assessment Guidance — study design expectations
+applies_to: [Standalone_Performance, MRMC_Reader_Study, Hybrid_Standalone_and_MRMC]
+scope_note: Expectations for standalone and reader (MRMC) clinical performance studies of CADe-type radiology devices; widely used as the template for CADx and triage (CADt) devices as well.
+items:
+  - { id: "F-1", section: Study population, type: expectation, text: "Study population should reflect the intended use population; describe patient demographics, disease prevalence/spectrum, lesion size/type distribution and imaging acquisition devices; justify enrichment and use of retrospective data.", keywords: [intended use population, spectrum, enrichment, prevalence, demographics] }
+  - { id: "F-2", section: Data independence, type: expectation, text: "Test data must be independent of data used for algorithm training, tuning and threshold selection; describe sequestration and how multiple images per patient are handled.", keywords: [independence, sequestration, training data, leakage] }
+  - { id: "F-3", section: Reference standard, type: expectation, text: "Define the reference standard (truthing) process: pathology/clinical outcome where feasible, otherwise expert panel with stated number, qualifications, independence, blinding, and adjudication rules for disagreements; report truther variability.", keywords: [reference standard, truthing, adjudication, panel, blinding] }
+  - { id: "F-4", section: Standalone performance, type: expectation, text: "Report standalone performance (e.g., sensitivity/specificity at the operating point, ROC/FROC/AFROC) with confidence intervals, lesion- and patient-level as appropriate, and marks/false positives per case.", keywords: [standalone, FROC, false positives per case, operating point, lesion level] }
+  - { id: "F-5", section: Reader study design, type: expectation, text: "For reader studies: fully-crossed MRMC design preferred, readers representative of intended users, adequate washout between reading sessions, randomised case order, training/acclimatisation, and reading paradigm matched to intended use (second reader, concurrent reader).", keywords: [MRMC, fully-crossed, washout, randomised order, concurrent, second reader] }
+  - { id: "F-6", section: Statistical analysis, type: expectation, text: "Pre-specify primary endpoint and hypothesis (superiority or non-inferiority with margin), analysis method accounting for reader and case variability (e.g., OR/DBM), sample size justification with pilot variance components, and handling of missing/unreadable cases.", keywords: [superiority, non-inferiority, OR model, DBM, sample size, variance components] }
+  - { id: "F-7", section: Subgroups, type: expectation, text: "Pre-specified subgroup analyses by acquisition device/manufacturer, site, lesion characteristics and patient characteristics to demonstrate consistency across the intended use conditions.", keywords: [subgroup, manufacturer, site, lesion size] }
+  - { id: "F-8", section: Workflow / triage, type: expectation, text: "For CADt/triage devices, define and justify time-to-notification/time-savings endpoints and the standalone sensitivity/specificity at the notification threshold.", keywords: [triage, time to notification, CADt] }

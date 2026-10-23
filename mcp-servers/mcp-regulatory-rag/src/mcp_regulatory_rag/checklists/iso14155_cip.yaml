@@ -1,0 +1,28 @@
+# ISO 14155:2020 Clinical investigation of medical devices for human subjects — Good clinical
+# practice. Annex A specifies the required contents of the Clinical Investigation Plan (CIP).
+# Taiwan's 醫療器材優良臨床試驗作業規範 (TFDA GCP for medical devices) and the TFDA 醫療器材臨床試驗
+# 計畫書 template follow the same structure. Section list below paraphrases Annex A for use as a
+# protocol-completeness checklist; consult the standard for exact normative text.
+id: ISO14155-CIP
+title: ISO 14155:2020 Annex A — Clinical Investigation Plan contents
+applies_to: [Standalone_Performance, MRMC_Reader_Study, Hybrid_Standalone_and_MRMC, Prospective_Interventional_RCT]
+scope_note: Structural completeness checklist for any medical-device clinical investigation plan (CIP / protocol).
+items:
+  - { id: "A.1", section: General, type: required, text: "Title, CIP identification/version/date, sponsor and principal investigator identification, synopsis.", keywords: [title, version, sponsor, synopsis] }
+  - { id: "A.2", section: Investigational device, type: required, text: "Identification and description of the investigational device, intended purpose, manufacturer, software version, traceability, and summary of pre-clinical/previous clinical data.", keywords: [device description, intended purpose, software version, traceability] }
+  - { id: "A.3", section: Justification, type: required, text: "Justification for the design of the clinical investigation, including risk-benefit analysis and literature/prior-evidence review.", keywords: [justification, risk-benefit, literature] }
+  - { id: "A.4", section: Risks and benefits, type: required, text: "Anticipated clinical benefits, anticipated adverse device effects, residual risks and mitigation.", keywords: [risks, benefits, adverse device effect, mitigation] }
+  - { id: "A.5", section: Objectives and hypotheses, type: required, text: "Primary and secondary objectives, hypotheses, endpoints and the claims to be verified.", keywords: [objectives, hypotheses, endpoints, claims] }
+  - { id: "A.6", section: Design, type: required, text: "Type of design (e.g., retrospective diagnostic accuracy, MRMC crossover, prospective RCT), control/comparator, randomisation and blinding/masking, and measures to minimise bias.", keywords: [design, comparator, randomisation, blinding, bias] }
+  - { id: "A.7", section: Subjects / data, type: required, text: "Inclusion and exclusion criteria, point of enrolment, withdrawal criteria, vulnerable populations, sample size justification and expected duration.", keywords: [inclusion, exclusion, enrolment, withdrawal, sample size, duration] }
+  - { id: "A.8", section: Procedures, type: required, text: "Investigation procedures, device use instructions, data acquisition protocol, reader training and reading procedures, follow-up schedule.", keywords: [procedures, acquisition protocol, reader training, follow-up] }
+  - { id: "A.9", section: Monitoring, type: required, text: "Monitoring plan and data quality assurance.", keywords: [monitoring, quality assurance] }
+  - { id: "A.10", section: Statistics, type: required, text: "Statistical design, methods and analytical procedures: sample size calculation, analysis populations, handling of missing/indeterminate data, interim analyses, success criteria, subgroup analyses.", keywords: [statistical analysis plan, sample size, analysis population, missing data, interim, success criteria] }
+  - { id: "A.11", section: Data management, type: required, text: "Data handling, record retention, de-identification/pseudonymisation, database and software validation, data security.", keywords: [data management, de-identification, pseudonymisation, retention, security] }
+  - { id: "A.12", section: Amendments, type: required, text: "Procedures for CIP amendments and deviations.", keywords: [amendments, deviations] }
+  - { id: "A.13", section: Device accountability, type: required, text: "Device accountability including software deployment/version control at sites.", keywords: [accountability, version control, deployment] }
+  - { id: "A.14", section: Ethics, type: required, text: "Statements of compliance (ISO 14155, Declaration of Helsinki, local regulations), ethics committee/IRB approval, informed consent or waiver justification for retrospective de-identified data.", keywords: [ethics, IRB, informed consent, waiver, Helsinki] }
+  - { id: "A.15", section: Safety reporting, type: required, text: "Adverse event and device deficiency definitions and reporting procedures (including software malfunction and erroneous output).", keywords: [adverse events, device deficiency, malfunction, reporting] }
+  - { id: "A.16", section: Suspension / termination, type: required, text: "Criteria and procedures for suspension or early termination.", keywords: [suspension, termination] }
+  - { id: "A.17", section: Publication, type: required, text: "Publication policy and registration (e.g., ClinicalTrials.gov, Taiwan registration).", keywords: [publication, registration] }
+  - { id: "A.18", section: References, type: required, text: "Bibliography and references.", keywords: [references, bibliography] }

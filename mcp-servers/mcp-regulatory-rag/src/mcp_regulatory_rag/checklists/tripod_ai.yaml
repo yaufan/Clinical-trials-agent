@@ -1,0 +1,14 @@
+# TRIPOD+AI — reporting guideline for prediction model studies using regression or ML methods.
+# Source: Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI statement. BMJ 2024;385:e078378.
+# Relevant for the Prognostic_Predictive SaMD category. Themes paraphrased; verify item numbers.
+id: TRIPOD-AI
+title: TRIPOD+AI (Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis + AI)
+applies_to: [Prognostic_Predictive]
+scope_note: Use for risk-prediction / prognostic AI-SaMD validation studies instead of STARD-AI.
+items:
+  - { id: "T-1", section: Title/Abstract, type: theme, text: "Identify the study as developing and/or evaluating a prediction model, the target population, the outcome predicted and the modelling approach.", keywords: [prediction model, outcome, population] }
+  - { id: "T-2", section: Methods – Data, type: theme, text: "Describe data sources, eligibility, outcome definition and timing, predictors and how they were measured, and sample size justification for evaluation (events per variable / precision of calibration & discrimination).", keywords: [data source, outcome definition, predictors, sample size, events] }
+  - { id: "T-3", section: Methods – Model, type: theme, text: "Describe model type, hyper-parameters, handling of missing data, and whether the evaluated model is locked (no re-training on evaluation data).", keywords: [model type, missing data, locked] }
+  - { id: "T-4", section: Methods – Evaluation, type: theme, text: "Pre-specify performance measures: discrimination (AUROC), calibration (slope, intercept, calibration plot), clinical utility (decision curve), and fairness/subgroup analyses.", keywords: [discrimination, calibration, decision curve, fairness, subgroup] }
+  - { id: "T-5", section: Methods – Evaluation, type: theme, text: "Describe external validation setting (temporal, geographic), decision thresholds and how they were chosen, and the intended clinical use and users.", keywords: [external validation, threshold, intended use] }
+  - { id: "T-6", section: Other, type: theme, text: "State availability of model, code and data; patient and public involvement; funding and conflicts of interest.", keywords: [availability, code, data, PPI, funding] }
