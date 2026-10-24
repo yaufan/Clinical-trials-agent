@@ -5,7 +5,7 @@
 
 > An MCP-powered web system that drafts regulatory-grade clinical investigation plans for AI/ML-based Software as a Medical Device (AI-SaMD), grounded in ClinicalTrials.gov, FDA 510(k)/De Novo summaries, PubMed baselines and TFDA/FDA/IMDRF guidance, with deterministic biostatistics and checklist-driven compliance auditing (STARD-AI / SPIRIT-AI / ISO 14155).
 
-[![tests](https://img.shields.io/badge/python_tests-157_passed-brightgreen)](#testing) ![arch](https://img.shields.io/badge/arch-linux%2Farm64%20%7C%20amd64-blue) ![license](https://img.shields.io/badge/license-Apache--2.0-lightgrey)
+[![tests](https://img.shields.io/badge/python_tests-passing-brightgreen)](#testing) ![arch](https://img.shields.io/badge/arch-linux%2Farm64%20%7C%20amd64-blue) ![license](https://img.shields.io/badge/license-Apache--2.0-lightgrey)
 
 ---
 
@@ -97,8 +97,9 @@ flowchart TB
 ├── frontend/                    # Next.js 16 wizard / evidence panel / editor
 ├── docker/                      # shared Python Dockerfile, Ollama model-pull helper
 ├── docker-compose.yml           # full stack for a DGX Spark (profiles: ollama | vllm | ingest)
+├── docs/USER_GUIDE.zh-TW.md     # 操作說明 (UI walkthrough with screenshots)
 ├── docs/REVIEW.zh-TW.md         # correctness review of the original plan
-├── docs/GB10_DEPLOYMENT.md      # DGX Spark deployment guide
+├── docs/GB10_DEPLOYMENT.md      # DGX Spark deployment guide + real gx10-01 deployment record
 ├── scripts/smoke_test.py        # end-to-end smoke test against a running stack
 ├── pyproject.toml / uv.lock     # uv workspace (Python ≥ 3.12)
 └── .env.example
@@ -109,7 +110,7 @@ flowchart TB
 ## 🚀 Quick start
 
 ### A. Full stack on the DGX Spark (GB10)
-See **[docs/GB10_DEPLOYMENT.md](docs/GB10_DEPLOYMENT.md)** for the complete guide. Short version:
+See **[docs/GB10_DEPLOYMENT.md](docs/GB10_DEPLOYMENT.md)** for the complete guide and **[docs/USER_GUIDE.zh-TW.md](docs/USER_GUIDE.zh-TW.md)** for how to operate the web UI. Short version:
 ```bash
 cp .env.example .env                      # set LLM_MODEL, NCBI_API_KEY, NEXT_PUBLIC_API_BASE_URL
 docker compose --profile ollama up -d --build
@@ -121,7 +122,7 @@ open http://<spark-ip>:3000
 ### B. Local development (any Linux/macOS, no GPU needed for tests)
 ```bash
 uv sync --all-packages --group dev
-make test            # 157 Python tests: unit + in-process MCP integration + full pipeline with fake LLM
+make test            # all Python tests: unit + in-process MCP integration + full pipeline with fake LLM
 make lint
 cd frontend && npm ci && npm run build
 ```

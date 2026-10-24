@@ -241,7 +241,10 @@ async def run_audit(
         )
         try:
             batch = await ctx.ask_json(
-                system=system, user=user, model=JudgementBatch, max_tokens=5000
+                system=system,
+                user=user,
+                model=JudgementBatch,
+                max_tokens=ctx.settings.llm_section_max_tokens,
             )
         except Exception as exc:  # keep auditing other groups
             ctx.state.warnings.append(f"audit batch for {primary_key} failed: {exc}")

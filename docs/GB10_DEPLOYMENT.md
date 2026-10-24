@@ -140,3 +140,45 @@ MCP 伺服器也可用 `stdio` 模式直接掛進 Claude Desktop / Claude Code �
 - 系統輸出為 **AI 輔助草稿**；所有統計數字皆由 `mcp-biostat-calc` 確定性計算，但 **MRMC 樣本數請以 RJafroc / iMRMC 交叉驗證**，並由生統人員覆核後才可用於 IRB / TFDA / FDA 送件。
 - 法規指引全文（TFDA、FDA、IMDRF）會下載到 Spark 本機的 `corpus` volume，不進 git；SPIRIT-AI 原文與 ISO 14155 需自備授權版本後加到 `sources.yaml`。
 - 若改用雲端 LLM（選項 D），請確認輸入不含可識別個資，且符合院內資訊安全與個資法規範。
+
+
+## 8. 實際部署紀錄 — gx10-01（2026-10-24）
+
+第一次在真機部署由 Claude Code 在機器上執行，以下是實際遇到的狀況與對應設定，之後重佈或換機器可直接照用。
+
+**機器**：gx10-01，GB10，aarch64，121 GB 可用統一記憶體（其他工作已用約 35 GB），磁碟剩 1.8 TB，Docker 29、compose v5、uv 已安裝，區網 IP 192.168.0.209。
+
+**既有服務與因應**
+| 狀況 | 處理 |
+|---|---|
+| 127.0.0.1:8000 已被容器 `qwen38-q8`（llama.cpp，模型 `qwen3.8-27b-q8`，單 slot、約 4.5 tok/s）占用，且有本機程序整天在用 | 不重用它（會互相排隊）。改啟動 compose 的 Ollama 拉 `qwen3:32b`。override 另留了一個 socat `llm-relay`（172.17.0.1:8020 → 127.0.0.1:8000），要切回重用模式只需改 `.env` 的 `LLM_BASE_URL` |
+| 後端對外埠 8000 衝突 | `docker-compose.override.yml` 把 backend 映射到 **8010**；`.env` 的 `NEXT_PUBLIC_API_BASE_URL=http://192.168.0.209:8010`，`CORS_ORIGINS` 加入 `http://192.168.0.209:3000`，重新 build frontend |
+| 本機既有的 `postgres:16-alpine` tag 其實是 amd64 層（exec format error） | `docker pull --platform linux/arm64 postgres:16-alpine` 重新拉正確架構即可（當時改用本機自建 tag `aisamd-postgres:16-alpine-arm64`） |
+| Ollama 偵測到 CUDA GB10 | `bge-m3` 以 `docker compose --profile ollama exec ollama ollama pull bge-m3` 單獨拉，避免 `ollama-pull` 一併拉 chat 模型 |
+
+**結果**：11 個容器運作中，`/api/health` ok，五個 MCP 全部 ok，法規 ingest 成功（TFDA 11、FDA CADe 38、PCCP 201、AI 生命週期草案 258、IMDRF 70 個 chunk，加 92 項查核表，共 670 points），網頁 http://192.168.0.209:3000 可用。
+
+**端對端執行時間（qwen3:32b，與另一個 LLM 工作共用 GPU 時）**：法規解析約 160 s、檢索到閘門約 400–500 s、生物統計約 400 s、十章節撰寫約 42 分鐘（每章 3–11 分鐘、兩路並行；GPU 被共用時單次拉長到 13–26 分鐘）、審查每批 2–4 分鐘、約 10 批。整份約 1.5–2.5 小時。
+
+**第一版 LLM 層在真機上踩到的坑（已於程式修正）**
+1. Qwen3 的 thinking 會先吃掉輸出 token 預算：`max_tokens` 用完時 content 為空、只剩 reasoning，造成「no JSON object found」而整個 run 失敗。→ 後端現在把 `finish_reason=length` 或「只有 reasoning 沒有答案」視為截斷，自動以兩倍預算重試到 `LLM_MAX_TOKENS_CAP`。
+2. 雙語輸出比 6000 token 長而被截斷。→ 長輸出改用 `LLM_SECTION_MAX_TOKENS`（預設 12000）。
+3. 單一章節失敗會讓整個 run 失敗。→ 現在改成該章放入佔位內容並記 warning，其餘流程照跑；修訂失敗則保留原文。
+4. 建議在 Ollama 關閉 Qwen3 的思考模式（速度約快一倍、不浪費預算）：`.env` 設 `LLM_EXTRA_BODY={"reasoning_effort":"none"}`（Ollama ≥ 0.40 實測有效）；vLLM 用 `{"chat_template_kwargs":{"enable_thinking":false}}`。
+
+**建議的 gx10-01 `.env`（LLM 部分）**
+```bash
+LLM_PROVIDER=local
+LLM_BASE_URL=http://ollama:11434/v1
+LLM_MODEL=qwen3:32b            # 與其他 GPU 工作搶資源時可改 qwen3:14b
+LLM_EXTRA_BODY={"reasoning_effort":"none"}
+LLM_SECTION_MAX_TOKENS=12000
+LLM_MAX_TOKENS_CAP=24000
+LLM_TIMEOUT_SECONDS=1800
+EMBEDDINGS_BASE_URL=http://ollama:11434/v1
+EMBEDDINGS_MODEL=bge-m3
+EMBEDDINGS_DIM=1024
+NEXT_PUBLIC_API_BASE_URL=http://192.168.0.209:8010
+CORS_ORIGINS=http://localhost:3000,http://192.168.0.209:3000
+```
+改完 `.env` 後：`docker compose --profile ollama up -d --build backend frontend`（frontend 因為烤進 API 位址需重 build）。

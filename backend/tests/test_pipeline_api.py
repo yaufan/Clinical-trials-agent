@@ -196,3 +196,26 @@ async def test_cancel_run(app, client, example_input):
     r = await client.post(f"/api/runs/{run_id}/cancel")
     assert r.status_code == 200
     assert r.json()["stage"] in ("cancelled", "awaiting_evidence_confirmation", "completed")
+
+
+@pytest.mark.anyio
+async def test_failed_section_and_revision_do_not_fail_the_run(
+    app, client, example_input, fake_llm
+):
+    """A section whose generation blows up becomes a placeholder; the run still completes."""
+    from app.llm.base import LLMTruncated
+
+    def boom(system, messages, schema):
+        raise LLMTruncated("finish_reason=length")
+
+    fake_llm.overrides[r"SECTION TO WRITE: 試驗醫材描述"] = boom
+    pid, run_id = await _create_and_start(client, example_input)
+    mgr = app.state.manager
+    await mgr.wait(run_id, max_seconds=60)
+    assert (await client.post(f"/api/runs/{run_id}/confirm-evidence", json={})).status_code == 200
+    state = await mgr.wait(run_id, max_seconds=120)
+    assert state.stage == RunStage.completed, state.error
+    device = state.section("device")
+    assert device.last_edited_by == "writer_agent(failed)" and "[TO BE CONFIRMED" in device.markdown
+    assert any("could not be generated" in w for w in state.warnings)
+    assert len(state.sections) == 10

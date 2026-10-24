@@ -348,13 +348,35 @@ async def run_harvest(ctx: AgentContext) -> EvidenceMatrix:
         + compact_json({"total_count": (t_res or {}).get("total_count")}, 500)
         + "\n\nProduce the benchmark matrix synthesis."
     )
-    synth = await ctx.ask_json(system=system, user=user, model=MatrixSynthesis)
+    try:
+        synth = await ctx.ask_json(
+            system=system,
+            user=user,
+            model=MatrixSynthesis,
+            max_tokens=ctx.settings.llm_section_max_tokens,
+        )
+        rows, narrative, baseline, gaps = (
+            synth.benchmark_rows,
+            synth.narrative_summary,
+            synth.baseline_performance,
+            synth.gaps_and_warnings,
+        )
+    except Exception as exc:  # the evidence list is still useful for the reviewer
+        msg = f"benchmark matrix synthesis failed: {type(exc).__name__}: {str(exc)[:300]}"
+        W.append(msg)
+        await ctx.log(msg)
+        rows, narrative, baseline, gaps = (
+            [],
+            "[TO BE CONFIRMED] Automatic synthesis failed; review the raw evidence items below.",
+            {},
+            [msg],
+        )
     matrix = EvidenceMatrix(
         items=items,
-        benchmark_rows=synth.benchmark_rows,
-        narrative_summary=synth.narrative_summary,
-        baseline_performance=synth.baseline_performance,
-        gaps_and_warnings=synth.gaps_and_warnings + [w for w in W if "failed" in w],
+        benchmark_rows=rows,
+        narrative_summary=narrative,
+        baseline_performance=baseline,
+        gaps_and_warnings=gaps + [w for w in W if "failed" in w and w not in gaps],
     )
     await ctx.log(
         "Evidence matrix drafted — awaiting human confirmation",

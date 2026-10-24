@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     llm_model: str = "qwen3:32b"
     llm_api_key: str = "not-needed"
     llm_max_tokens: int = 8192
+    llm_section_max_tokens: int = 12000  # writer / revise / SAP / audit calls (long outputs)
+    llm_max_tokens_cap: int = 24000  # upper bound when retrying after truncation
+    llm_extra_body: str = (
+        ""  # JSON merged into every chat request, e.g. {"reasoning_effort":"none"}
+    )
     llm_timeout_seconds: float = 600.0
     llm_temperature: float = 0.2
     anthropic_api_key: str | None = None
@@ -44,6 +49,20 @@ class Settings(BaseSettings):
     # API
     cors_origins: str = "http://localhost:3000"
     api_prefix: str = "/api"
+
+    @property
+    def llm_extra_body_dict(self) -> dict:
+        import json
+
+        if not self.llm_extra_body.strip():
+            return {}
+        try:
+            parsed = json.loads(self.llm_extra_body)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"LLM_EXTRA_BODY is not valid JSON: {exc}") from exc
+        if not isinstance(parsed, dict):
+            raise ValueError("LLM_EXTRA_BODY must be a JSON object")
+        return parsed
 
     @property
     def cors_origin_list(self) -> list[str]:

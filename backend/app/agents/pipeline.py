@@ -151,7 +151,13 @@ class Pipeline:
                     sec = state.section(key)
                     if sec is None:
                         continue
-                    revised = await revise_section(ctx, sec, fixes, sap=state.sap)
+                    try:
+                        revised = await revise_section(ctx, sec, fixes, sap=state.sap)
+                    except Exception as exc:  # keep the previous text rather than failing the run
+                        msg = f"revision of section '{key}' failed, previous text kept: {type(exc).__name__}: {str(exc)[:300]}"
+                        state.warnings.append(msg)
+                        await ctx.log(msg)
+                        continue
                     state.sections = [revised if s.key == key else s for s in state.sections]
                 await self.save(state)
             await self._done(state, RunStage.audit)

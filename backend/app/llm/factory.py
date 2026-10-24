@@ -23,4 +23,6 @@ def build_llm(settings: Settings) -> LLMClient:
         max_tokens=settings.llm_max_tokens,
         temperature=settings.llm_temperature,
         timeout=settings.llm_timeout_seconds,
+        extra_body=settings.llm_extra_body_dict,
+        max_tokens_cap=settings.llm_max_tokens_cap,
     )

@@ -139,3 +139,84 @@ async def test_openai_compat_retries_on_503(monkeypatch):
     llm = OpenAICompatibleLLM(base_url="http://llm.test/v1", model="m", timeout=5)
     r = await llm.complete(system="s", messages=[LLMMessage("user", "u")])
     assert r.text == "hello"
+
+
+@pytest.mark.anyio
+@respx.mock
+async def test_openai_compat_retries_truncated_reasoning_with_bigger_budget():
+    """Qwen3-style reply: budget consumed by reasoning, empty content, finish_reason=length."""
+    seen: list[int] = []
+
+    def handler(request):
+        import json as _json
+
+        body = _json.loads(request.content)
+        seen.append(body["max_tokens"])
+        if len(seen) == 1:
+            return httpx.Response(
+                200,
+                json={
+                    "choices": [
+                        {
+                            "message": {"content": "", "reasoning": "thinking..."},
+                            "finish_reason": "length",
+                        }
+                    ]
+                },
+            )
+        return httpx.Response(
+            200, json={"choices": [{"message": {"content": '{"ok": 1}'}, "finish_reason": "stop"}]}
+        )
+
+    respx.post("http://llm.test/v1/chat/completions").mock(side_effect=handler)
+    llm = OpenAICompatibleLLM(
+        base_url="http://llm.test/v1", model="m", timeout=5, max_tokens=1000, max_tokens_cap=4000
+    )
+    r = await llm.complete(
+        system="s", messages=[LLMMessage("user", "u")], json_schema={"type": "object"}
+    )
+    assert r.parsed == {"ok": 1}
+    assert seen == [1000, 2000]
+
+
+@pytest.mark.anyio
+@respx.mock
+async def test_openai_compat_gives_up_at_cap():
+    from app.llm.base import LLMTruncated
+
+    respx.post("http://llm.test/v1/chat/completions").mock(
+        return_value=httpx.Response(
+            200, json={"choices": [{"message": {"content": "partial"}, "finish_reason": "length"}]}
+        )
+    )
+    llm = OpenAICompatibleLLM(
+        base_url="http://llm.test/v1", model="m", timeout=5, max_tokens=1000, max_tokens_cap=2000
+    )
+    with pytest.raises(LLMTruncated):
+        await llm.complete(system="s", messages=[LLMMessage("user", "u")])
+
+
+@pytest.mark.anyio
+@respx.mock
+async def test_openai_compat_merges_extra_body():
+    route = respx.post("http://llm.test/v1/chat/completions").mock(
+        return_value=httpx.Response(
+            200, json={"choices": [{"message": {"content": "hi"}, "finish_reason": "stop"}]}
+        )
+    )
+    llm = OpenAICompatibleLLM(
+        base_url="http://llm.test/v1", model="m", timeout=5, extra_body={"reasoning_effort": "none"}
+    )
+    await llm.complete(system="s", messages=[LLMMessage("user", "u")])
+    import json as _json
+
+    assert _json.loads(route.calls[0].request.content)["reasoning_effort"] == "none"
+
+
+def test_settings_parse_extra_body(monkeypatch):
+    from app.config import Settings
+
+    s = Settings(llm_extra_body='{"reasoning_effort":"none"}')
+    assert s.llm_extra_body_dict == {"reasoning_effort": "none"}
+    with pytest.raises(ValueError):
+        Settings(llm_extra_body="not json").llm_extra_body_dict  # noqa: B018

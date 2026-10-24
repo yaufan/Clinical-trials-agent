@@ -16,6 +16,10 @@ class LLMRefusal(LLMError):
     """The model (or a safety layer) declined to answer."""
 
 
+class LLMTruncated(LLMError):
+    """The reply hit max_tokens (or was all reasoning and no answer) — retry with a larger budget."""
+
+
 @dataclass
 class LLMMessage:
     role: Literal["user", "assistant"]

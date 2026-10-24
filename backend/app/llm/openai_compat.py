@@ -13,7 +13,7 @@ from typing import Any
 
 import httpx
 
-from .base import LLMError, LLMMessage, LLMResponse, extract_json, strip_reasoning
+from .base import LLMError, LLMMessage, LLMResponse, LLMTruncated, extract_json, strip_reasoning
 
 log = logging.getLogger(__name__)
 
@@ -30,6 +30,7 @@ class OpenAICompatibleLLM:
         timeout: float = 600.0,
         client: httpx.AsyncClient | None = None,
         extra_body: dict[str, Any] | None = None,
+        max_tokens_cap: int = 24000,
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.model = model
@@ -37,6 +38,7 @@ class OpenAICompatibleLLM:
         self.max_tokens = max_tokens
         self.temperature = temperature
         self.extra_body = extra_body or {}
+        self.max_tokens_cap = max(max_tokens, max_tokens_cap)
         headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
         self._client = client or httpx.AsyncClient(
             timeout=httpx.Timeout(timeout, connect=30.0), headers=headers
@@ -56,6 +58,35 @@ class OpenAICompatibleLLM:
         json_schema: dict[str, Any] | None = None,
         max_tokens: int | None = None,
         temperature: float | None = None,
+    ) -> LLMResponse:
+        """Chat completion with automatic recovery from truncated / reasoning-only replies.
+
+        Reasoning models (Qwen3, DeepSeek-R1 …) spend output tokens on thinking first; if the
+        budget runs out the visible answer is empty or cut off. We retry with a doubled budget
+        up to ``max_tokens_cap`` before giving up.
+        """
+        budget = max_tokens or self.max_tokens
+        attempt = 0
+        while True:
+            try:
+                return await self._complete_once(system, messages, json_schema, budget, temperature)
+            except LLMTruncated as exc:
+                attempt += 1
+                if attempt >= 3 or budget >= self.max_tokens_cap:
+                    raise
+                new_budget = min(budget * 2, self.max_tokens_cap)
+                log.warning(
+                    "LLM reply truncated (%s); retrying with max_tokens=%d", exc, new_budget
+                )
+                budget = new_budget
+
+    async def _complete_once(
+        self,
+        system: str,
+        messages: list[LLMMessage],
+        json_schema: dict[str, Any] | None,
+        max_tokens: int,
+        temperature: float | None,
     ) -> LLMResponse:
         modes = ["json_schema", "json_object", "none"] if json_schema else ["none"]
         if self._structured_mode and json_schema:
@@ -144,9 +175,22 @@ class OpenAICompatibleLLM:
             text = msg.get("content") or ""
         except (KeyError, IndexError, TypeError) as exc:
             raise LLMError(f"malformed completion payload: {str(data)[:300]}") from exc
+        reasoning = msg.get("reasoning") or msg.get("reasoning_content") or ""
         text = strip_reasoning(text)
+        finish = choice.get("finish_reason")
+        if finish == "length":
+            raise LLMTruncated(
+                f"finish_reason=length (content {len(text)} chars, reasoning {len(reasoning)} chars)"
+            )
+        if not text.strip() and reasoning:
+            raise LLMTruncated("model returned reasoning but no answer")
         usage = data.get("usage") or {}
-        parsed = extract_json(text) if want_json else None
+        try:
+            parsed = extract_json(text) if want_json else None
+        except LLMError as exc:
+            if want_json and len(text) > 0.8 * max(1, 4 * (usage.get("completion_tokens") or 0)):
+                raise LLMTruncated(f"unparseable JSON, likely cut off: {exc}") from exc
+            raise
         return LLMResponse(
             text=text,
             parsed=parsed,
