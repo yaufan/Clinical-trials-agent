@@ -55,12 +55,23 @@ class RunManager:
         self._subscribers[run_id].discard(q)
 
     def _pipeline(self, run_id: str) -> Pipeline:
+        emit = self._emitter(run_id)
+
+        async def on_tool_call(
+            server: str, tool: str, arguments: dict, seconds: float, ok: bool
+        ) -> None:
+            await emit(
+                RunEvent(
+                    type="tool_call",
+                    message=f"{server}.{tool} ({seconds:.1f}s){'' if ok else ' FAILED'}",
+                    data={"server": server, "tool": tool, "ok": ok, "seconds": round(seconds, 2)},
+                )
+            )
+
+        # one manager per run so tool-call counts are per run, not per process
+        run_mcp = McpManager(self.mcp.targets, hook=on_tool_call)
         return Pipeline(
-            llm=self.llm,
-            mcp=self.mcp,
-            settings=self.settings,
-            save=self.repo.save_run,
-            emit=self._emitter(run_id),
+            llm=self.llm, mcp=run_mcp, settings=self.settings, save=self.repo.save_run, emit=emit
         )
 
     # ── lifecycle ────────────────────────────────────────────────────────────

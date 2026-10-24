@@ -119,7 +119,12 @@ async def test_full_pipeline_with_hitl_gate_and_exports(app, client, example_inp
     # events were persisted
     events = (await client.get(f"/api/runs/{run_id}/events/history")).json()
     types = {e["type"] for e in events}
-    assert {"stage_started", "stage_completed", "hitl_required"} <= types
+    assert {"stage_started", "stage_completed", "hitl_required", "tool_call"} <= types
+    tool_events = [e for e in events if e["type"] == "tool_call"]
+    failed = [
+        f"{e['data']['server']}.{e['data']['tool']}" for e in tool_events if not e["data"].get("ok")
+    ]
+    assert state.tool_calls == len(tool_events), (state.tool_calls, len(tool_events), failed)
 
     # edit a section
     r = await client.put(

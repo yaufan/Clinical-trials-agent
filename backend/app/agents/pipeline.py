@@ -28,6 +28,9 @@ class Pipeline:
         self, *, llm: LLMClient, mcp: McpManager, settings: Settings, save: SaveFn, emit: EmitFn
     ) -> None:
         self.llm, self.mcp, self.settings, self.save, self.emit = llm, mcp, settings, save, emit
+        self._tool_base: int | None = (
+            None  # state.tool_calls − mcp.calls at the first stage of this half
+        )
 
     def _ctx(self, state: RunState, inp: ProtocolInput) -> AgentContext:
         return AgentContext(
@@ -40,6 +43,8 @@ class Pipeline:
         )
 
     async def _enter(self, state: RunState, stage: RunStage) -> None:
+        if self._tool_base is None:
+            self._tool_base = state.tool_calls - self.mcp.calls
         state.stage = stage
         state.updated_at = utcnow()
         await self.save(state)
@@ -49,7 +54,7 @@ class Pipeline:
 
     async def _done(self, state: RunState, stage: RunStage) -> None:
         state.updated_at = utcnow()
-        state.tool_calls = self.mcp.calls
+        state.tool_calls = (self._tool_base or 0) + self.mcp.calls
         await self.save(state)
         await self.emit(
             RunEvent(type="stage_completed", stage=stage, message=f"{stage.value} completed")
