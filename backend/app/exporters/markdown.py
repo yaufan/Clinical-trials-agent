@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from ..schemas.protocol_input import ProtocolInput
 from ..schemas.run import RunState
 
@@ -51,6 +53,32 @@ def _synopsis_table(inp: ProtocolInput, state: RunState) -> str:
     return "\n".join(out)
 
 
+def normalize_section_markdown(markdown: str, *, title_en: str, title_zh: str) -> str:
+    """Drop a leading heading that repeats the section title and demote H1/H2 to H3 inside a section."""
+    lines = markdown.strip().splitlines()
+    core_en = title_en.split(". ", 1)[-1].strip().lower()
+    i = 0
+    while i < len(lines) and not lines[i].strip():
+        i += 1
+    if i < len(lines) and lines[i].lstrip().startswith("#"):
+        head = lines[i].lstrip("# ").strip().lower()
+        if (
+            title_zh in head
+            or (core_en and core_en in head)
+            or head.startswith(("synopsis", "摘要"))
+        ):
+            lines.pop(i)
+    out: list[str] = []
+    in_code = False
+    for ln in lines:
+        if ln.strip().startswith("```"):
+            in_code = not in_code
+        if not in_code and re.match(r"^#{1,2}\s", ln):
+            ln = "### " + ln.lstrip("#").lstrip()
+        out.append(ln)
+    return "\n".join(out).strip()
+
+
 def render_protocol_markdown(inp: ProtocolInput, state: RunState) -> str:
     dp = inp.device_profile
     meta = inp.project_meta
@@ -90,7 +118,9 @@ def render_protocol_markdown(inp: ProtocolInput, state: RunState) -> str:
         lines.append("")
     for sec in state.sections:
         lines.append(f"## {sec.title_zh} / {sec.title_en}")
-        lines.append(sec.markdown.strip())
+        lines.append(
+            normalize_section_markdown(sec.markdown, title_en=sec.title_en, title_zh=sec.title_zh)
+        )
         if sec.open_questions:
             lines.append("")
             lines.append("**Open questions / 待確認事項:**")

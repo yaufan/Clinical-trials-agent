@@ -169,23 +169,102 @@ def _keywords(text: str) -> str:
     return " ".join(words[:2]) or text[:30]
 
 
+_MODALITY_TOKENS = [
+    ("mammogra", "mammography"),
+    ("tomosynthesis", "tomosynthesis"),
+    ("chest x-ray", "chest X-ray"),
+    ("chest radiograph", "chest radiograph"),
+    ("x-ray", "X-ray"),
+    ("radiograph", "radiograph"),
+    ("cta", "CT angiography"),
+    ("ct", "CT"),
+    ("mri", "MRI"),
+    ("mr ", "MRI"),
+    ("ultrasound", "ultrasound"),
+    ("sonograph", "ultrasound"),
+    ("echocardiogra", "echocardiography"),
+    ("fundus", "fundus photography"),
+    ("oct", "optical coherence tomography"),
+    ("endoscop", "endoscopy"),
+    ("colonoscop", "colonoscopy"),
+    ("dermoscop", "dermoscopy"),
+    ("pathology", "pathology"),
+    ("histolog", "histopathology"),
+    ("ecg", "ECG"),
+    ("electrocardiogra", "ECG"),
+    ("eeg", "EEG"),
+    ("ehr", "electronic health records"),
+    ("pet", "PET"),
+]
+
+
+def simplify_disease(text: str) -> str:
+    """'Acute intracranial hemorrhage (ICH)' → 'Acute intracranial hemorrhage' (search engines choke on parentheses)."""
+    t = re.sub(r"\([^)]*\)", " ", text)
+    t = re.sub(r"[^\w\s\-']", " ", t)
+    return re.sub(r"\s+", " ", t).strip() or text.strip()
+
+
+def disease_acronym(text: str) -> str | None:
+    m = re.search(r"\(([A-Za-z]{2,8})\)", text)
+    return m.group(1) if m else None
+
+
+def simplify_modality(text: str) -> str | None:
+    """'Non-contrast head CT (DICOM)' → 'CT'; returns None when no known modality is recognised."""
+    low = f" {text.lower()} "
+    for needle, canonical in _MODALITY_TOKENS:
+        # left word boundary always; right boundary too for short tokens (ct, mri, oct, pet, ecg, eeg, ehr)
+        pattern = (
+            r"(?<![a-z])"
+            + re.escape(needle.strip())
+            + (r"(?![a-z])" if len(needle.strip()) <= 3 else "")
+        )
+        if re.search(pattern, low):
+            return canonical
+    return None
+
+
 # ── main entry ───────────────────────────────────────────────────────────────
 
 
 async def run_harvest(ctx: AgentContext) -> EvidenceMatrix:
     inp = ctx.input
-    disease = inp.device_profile.indications_for_use.target_disease
-    modality = inp.ai_specifications.input_modality
+    raw_disease = inp.device_profile.indications_for_use.target_disease
+    disease = simplify_disease(raw_disease)
+    acronym = disease_acronym(raw_disease)
+    modality = simplify_modality(inp.ai_specifications.input_modality)
     settings = ctx.settings
     W = ctx.state.warnings
     mcp = ctx.mcp
 
+    async def _search_with_fallbacks(
+        server: str, tool: str, base: dict[str, Any], count_key: str
+    ) -> dict | None:
+        """Try (disease+modality) → (disease only) → (acronym) until something comes back."""
+        variants: list[dict[str, Any]] = [
+            {**base, "modality": modality} if modality else dict(base)
+        ]
+        if modality:
+            variants.append(dict(base))
+        if acronym:
+            variants.append({**base, "disease" if "disease" in base else "condition": acronym})
+        last: dict | None = None
+        for args in variants:
+            res = await mcp.try_call(server, tool, args, warnings=W)
+            if res is None:
+                return last
+            last = res
+            if res.get(count_key) or []:
+                return res
+        return last
+
     async def trials() -> dict | None:
-        return await mcp.try_call(
+        return await _search_with_fallbacks(
             "clinicaltrials",
             "search_samd_trials",
-            {"condition": disease, "modality": modality, "page_size": settings.harvest_max_trials},
-            warnings=W,
+            {"condition": disease, "page_size": settings.harvest_max_trials},
+            "studies",
         )
 
     async def predicate_bench() -> dict | None:
@@ -224,29 +303,24 @@ async def run_harvest(ctx: AgentContext) -> EvidenceMatrix:
             if inp.statistical_assumptions.primary_endpoints
             else None
         )
-        return await mcp.try_call(
+        return await _search_with_fallbacks(
             "pubmed",
             "search_baseline_performance",
             {
                 "disease": disease,
-                "modality": modality,
                 "metric": metric,
                 "max_results": settings.harvest_max_articles,
                 "exclude_ai": True,
             },
-            warnings=W,
+            "articles",
         )
 
     async def ai_evidence() -> dict | None:
-        return await mcp.try_call(
+        return await _search_with_fallbacks(
             "pubmed",
             "search_ai_evidence",
-            {
-                "disease": disease,
-                "modality": modality,
-                "max_results": settings.harvest_max_articles,
-            },
-            warnings=W,
+            {"disease": disease, "max_results": settings.harvest_max_articles},
+            "articles",
         )
 
     async def guidance() -> list[dict]:

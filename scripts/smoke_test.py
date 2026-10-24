@@ -1,6 +1,6 @@
 """End-to-end smoke test against a running stack.
 
-    python scripts/smoke_test.py --base-url http://localhost:8000 [--timeout 1800]
+    python scripts/smoke_test.py --base-url http://localhost:8000 [--timeout 10800]
 
 Creates a project from the built-in example, starts a run, waits for the evidence gate,
 auto-confirms every evidence item, waits for completion and downloads the Markdown export.
@@ -21,8 +21,8 @@ def main() -> int:
     ap.add_argument(
         "--timeout",
         type=float,
-        default=1800.0,
-        help="seconds to wait for each half of the pipeline",
+        default=10800.0,
+        help="seconds to wait for each half of the pipeline (local 32B models need 1-3 h)",
     )
     ap.add_argument("--out", default="smoke-protocol.md")
     args = ap.parse_args()

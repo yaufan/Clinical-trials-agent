@@ -219,3 +219,44 @@ async def test_failed_section_and_revision_do_not_fail_the_run(
     assert device.last_edited_by == "writer_agent(failed)" and "[TO BE CONFIRMED" in device.markdown
     assert any("could not be generated" in w for w in state.warnings)
     assert len(state.sections) == 10
+
+
+def test_harvester_query_simplification():
+    from app.agents.harvester import disease_acronym, simplify_disease, simplify_modality
+
+    assert (
+        simplify_disease("Acute intracranial hemorrhage (ICH)") == "Acute intracranial hemorrhage"
+    )
+    assert disease_acronym("Acute intracranial hemorrhage (ICH)") == "ICH"
+    assert simplify_modality("Non-contrast head CT (DICOM)") == "CT"
+    assert simplify_modality("Digital breast tomosynthesis") == "tomosynthesis"
+    assert simplify_modality("12-lead ECG waveform") == "ECG"
+    assert simplify_modality("structured EHR tables") == "electronic health records"
+    assert simplify_modality("proprietary sensor stream") is None
+
+
+@pytest.mark.anyio
+async def test_harvest_falls_back_to_broader_queries(app, client, example_input):
+    """Modality-qualified searches return nothing → retried without modality → then by acronym."""
+    mgr = app.state.manager
+    ct = mgr.mcp.targets["clinicaltrials"]
+    calls: list[dict] = []
+    full = ct.responses["search_samd_trials"]
+
+    def search(args):
+        calls.append(args)
+        if "modality" in args:
+            return {"total_count": 0, "returned": 0, "studies": []}
+        return full
+
+    ct.responses["search_samd_trials"] = search
+    pid, run_id = await _create_and_start(client, example_input)
+    state = await mgr.wait(run_id, max_seconds=60)
+    assert state.stage == RunStage.awaiting_evidence_confirmation, state.error
+    assert calls[0] == {
+        "condition": "Acute intracranial hemorrhage",
+        "page_size": 15,
+        "modality": "CT",
+    }
+    assert "modality" not in calls[1] and calls[1]["condition"] == "Acute intracranial hemorrhage"
+    assert any(i.source == "clinicaltrials" for i in state.evidence.items)

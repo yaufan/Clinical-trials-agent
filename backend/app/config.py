@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     llm_extra_body: str = (
         ""  # JSON merged into every chat request, e.g. {"reasoning_effort":"none"}
     )
-    llm_timeout_seconds: float = 600.0
+    llm_timeout_seconds: float = 3600.0
     llm_temperature: float = 0.2
     anthropic_api_key: str | None = None
     anthropic_model: str = "claude-opus-5-5"
