@@ -98,8 +98,9 @@ flowchart TB
 ├── docker/                      # shared Python Dockerfile, Ollama model-pull helper
 ├── docker-compose.yml           # full stack for a DGX Spark (profiles: ollama | vllm | ingest)
 ├── docs/USER_GUIDE.zh-TW.md     # 操作說明 (UI walkthrough with screenshots)
+├── docs/SECURITY.zh-TW.md       # 安全性設計、資料邊界、對外開放前檢查清單
 ├── docs/REVIEW.zh-TW.md         # correctness review of the original plan
-├── docs/GB10_DEPLOYMENT.md      # DGX Spark deployment guide + real gx10-01 deployment record
+├── docs/GB10_DEPLOYMENT.md      # DGX Spark deployment guide + real GB10 主機 deployment record
 ├── scripts/smoke_test.py        # end-to-end smoke test against a running stack
 ├── pyproject.toml / uv.lock     # uv workspace (Python ≥ 3.12)
 └── .env.example
@@ -112,7 +113,7 @@ flowchart TB
 ### A. Full stack on the DGX Spark (GB10)
 See **[docs/GB10_DEPLOYMENT.md](docs/GB10_DEPLOYMENT.md)** for the complete guide and **[docs/USER_GUIDE.zh-TW.md](docs/USER_GUIDE.zh-TW.md)** for how to operate the web UI. Short version:
 ```bash
-cp .env.example .env                      # set LLM_MODEL, NCBI_API_KEY, NEXT_PUBLIC_API_BASE_URL
+cp .env.example .env                      # set LLM_MODEL, NCBI_API_KEY, API_KEY (openssl rand -hex 32)
 docker compose --profile ollama up -d --build
 docker compose --profile ollama run --rm ollama-pull                    # qwen3:32b + bge-m3
 docker compose --profile ollama --profile ingest run --rm rag-ingest     # TFDA / FDA / IMDRF guidance → Qdrant
@@ -179,6 +180,15 @@ LIVE_API_TESTS=1 uv run pytest -q -m live          # hits ClinicalTrials.gov / o
 | next | Validate MRMC numbers against RJafroc/iMRMC; add MDCG 2020-1 & 人體研究法 texts to the corpus; multi-user auth; PDF export; TipTap editor with tracked changes | ⏳ |
 
 ---
+
+## 🔒 Security | 安全性
+
+- **Local-first**: model, vector store and database all run on the GB10; only public keywords (disease, modality, product code, K-number) leave the machine to query ClinicalTrials.gov / openFDA / PubMed. Do not enter identifiable patient data.
+- **Minimal exposure**: only the frontend port is published on the LAN; backend, Qdrant and Ollama bind to `127.0.0.1`, PostgreSQL and the MCP servers are not published at all.
+- **API key**: set `API_KEY`; the browser talks to a same-origin `/backend` proxy and the Next.js server adds the key, so it never reaches the browser.
+- **LLM safety**: retrieved documents are treated as untrusted data (prompt-injection guard), statistics come only from the deterministic biostat server, Markdown is rendered without raw HTML.
+
+Details and a pre-deployment checklist: [`docs/SECURITY.zh-TW.md`](docs/SECURITY.zh-TW.md).
 
 ## ⚠️ Disclaimer | 免責聲明
 

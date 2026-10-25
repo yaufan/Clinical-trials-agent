@@ -8,7 +8,9 @@ import type {
   SectionEdit,
 } from "./types";
 
-export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000").replace(/\/$/, "");
+// Default: same-origin proxy (/backend → Next.js server → backend container). The API key stays on the
+// server. Set NEXT_PUBLIC_API_BASE_URL only for a split deployment that has its own authentication.
+export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "/backend").replace(/\/$/, "");
 const PREFIX = `${API_BASE}/api`;
 
 export class ApiError extends Error {

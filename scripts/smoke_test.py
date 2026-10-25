@@ -9,6 +9,7 @@ auto-confirms every evidence item, waits for completion and downloads the Markdo
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import time
 
@@ -18,6 +19,7 @@ import httpx
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base-url", default="http://localhost:8000")
+    ap.add_argument("--api-key", default=os.environ.get("API_KEY", ""), help="defaults to $API_KEY")
     ap.add_argument(
         "--timeout",
         type=float,
@@ -27,7 +29,8 @@ def main() -> int:
     ap.add_argument("--out", default="smoke-protocol.md")
     args = ap.parse_args()
     api = args.base_url.rstrip("/") + "/api"
-    c = httpx.Client(timeout=60.0)
+    headers = {"X-API-Key": args.api_key} if args.api_key else {}
+    c = httpx.Client(timeout=60.0, headers=headers)
 
     health = c.get(f"{api}/health").json()
     print("health:", health)

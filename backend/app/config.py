@@ -49,6 +49,9 @@ class Settings(BaseSettings):
     # API
     cors_origins: str = "http://localhost:3000"
     api_prefix: str = "/api"
+    api_key: str = (
+        ""  # when set, every /api/* request (except /api/health) must send X-API-Key or Bearer
+    )
 
     @property
     def llm_extra_body_dict(self) -> dict:

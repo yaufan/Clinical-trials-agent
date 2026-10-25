@@ -54,7 +54,7 @@ services:
   qdrant:
     image: qdrant/qdrant:v1.15.4
     restart: unless-stopped
-    ports: ["6333:6333"]
+    ports: ["127.0.0.1:${QDRANT_PORT:-6333}:6333"]  # loopback only; not reachable from the LAN
     volumes: [qdrant:/qdrant/storage]
     healthcheck:
       test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
@@ -75,7 +75,7 @@ services:
       OLLAMA_FLASH_ATTENTION: "1"
       OLLAMA_KV_CACHE_TYPE: ${OLLAMA_KV_CACHE_TYPE:-q8_0}
       OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH:-32768}
-    ports: ["11434:11434"]
+    ports: ["127.0.0.1:${OLLAMA_PORT:-11434}:11434"]  # loopback only
     volumes: [ollama:/root/.ollama]
     networks: [copilot]
 
@@ -103,7 +103,7 @@ services:
       HF_HOME: /root/.cache/huggingface
       HF_TOKEN: ${HF_TOKEN:-}
     volumes: [hf-cache:/root/.cache/huggingface]
-    ports: ["8000:8000"]
+    ports: ["127.0.0.1:${VLLM_PORT:-8001}:8000"]  # loopback only
     command: >
       vllm serve ${VLLM_MODEL:-nvidia/Qwen3.8-27B-NVFP4}
       --host 0.0.0.0 --port 8000
@@ -157,7 +157,9 @@ services:
   backend:
     <<: *python-service
     command: ["uvicorn", "app.main:build", "--factory", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
-    ports: ["8000:8000"]
+    # Browsers reach the API through the frontend's server-side proxy, so the backend only needs
+    # loopback for local curl / smoke tests. Set BACKEND_BIND=0.0.0.0 only if you must expose it.
+    ports: ["${BACKEND_BIND:-127.0.0.1}:${BACKEND_PORT:-8000}:8000"]
     depends_on:
       postgres: { condition: service_healthy }
       qdrant: { condition: service_healthy }
@@ -176,10 +178,15 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
+        # Leave empty (default): the browser talks to same-origin /backend, which the Next.js
+        # server proxies to the backend and signs with the API key. Set only for a split deployment.
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-}
     image: aisamd-frontend:local
     restart: unless-stopped
-    ports: ["3000:3000"]
+    environment:
+      BACKEND_INTERNAL_URL: http://backend:8000
+      BACKEND_API_KEY: ${API_KEY:-}
+    ports: ["${FRONTEND_BIND:-0.0.0.0}:${FRONTEND_PORT:-3000}:3000"]
     depends_on: [backend]
     networks: [copilot]
 

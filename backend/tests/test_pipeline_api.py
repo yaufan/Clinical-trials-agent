@@ -260,3 +260,46 @@ async def test_harvest_falls_back_to_broader_queries(app, client, example_input)
     }
     assert "modality" not in calls[1] and calls[1]["condition"] == "Acute intracranial hemorrhage"
     assert any(i.source == "clinicaltrials" for i in state.evidence.items)
+
+
+@pytest.mark.anyio
+async def test_api_key_enforced_when_configured(tmp_path, fake_llm, mcp_factory):
+    from httpx import ASGITransport, AsyncClient
+
+    from app.config import Settings
+    from app.db import Database
+    from app.main import create_app
+
+    settings = Settings(
+        llm_provider="fake", database_url=f"sqlite+aiosqlite:///{tmp_path}/k.db", api_key="s3cret"
+    )
+    db = Database(settings.database_url)
+    await db.init()
+    application = create_app(settings, llm=fake_llm, mcp=mcp_factory(), database=db)
+    try:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://test"
+        ) as c:
+            assert (await c.get("/api/health")).status_code == 200  # exempt
+            assert (await c.get("/api/meta/example")).status_code == 401
+            assert (
+                await c.get("/api/meta/example", headers={"X-API-Key": "wrong"})
+            ).status_code == 401
+            assert (
+                await c.get("/api/meta/example", headers={"X-API-Key": "s3cret"})
+            ).status_code == 200
+            assert (
+                await c.get("/api/meta/example", headers={"Authorization": "Bearer s3cret"})
+            ).status_code == 200
+            assert (
+                await c.options(
+                    "/api/meta/example",
+                    headers={
+                        "Origin": "http://localhost:3000",
+                        "Access-Control-Request-Method": "GET",
+                    },
+                )
+            ).status_code in (200, 204)
+    finally:
+        await application.state.manager.shutdown()
+        await db.close()

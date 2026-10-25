@@ -246,3 +246,8 @@ async def client(app):
 @pytest.fixture
 def example_input() -> dict:
     return EXAMPLE_INPUT
+
+
+@pytest.fixture
+def mcp_factory():
+    return make_mcp
